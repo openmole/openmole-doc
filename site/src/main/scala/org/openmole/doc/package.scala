@@ -1,4 +1,4 @@
-package org.openmole.doc
+package org.openmole.site
 
 import scalatags.JsDom.all._
 import scaladget.stylesheet.all._
@@ -20,7 +20,7 @@ import scaladget.stylesheet.all._
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package object sheet {
+package object sitesheet {
 
   lazy val mainDiv: ModifierSeq = Seq(
     scaladget.stylesheet.all.paddingTop(50),

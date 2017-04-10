@@ -1,4 +1,4 @@
-package site
+package org.openmole.site
 
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
@@ -8,7 +8,7 @@ import scala.scalajs.js.annotation.JSExport
 
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
-import org.openmole.doc
+import org.openmole.site
 import bs._
 
 @JSExport("site.Site")
@@ -35,7 +35,7 @@ object Site extends JSApp {
         add("Docker", div2, true)
 
 
-     val mainDiv = tags.div(doc.sheet.mainDiv)(
+     val mainDiv = tags.div(site.sitesheet.mainDiv)(
        tabs.render
      )
 
