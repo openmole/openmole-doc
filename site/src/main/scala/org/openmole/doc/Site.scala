@@ -5,11 +5,10 @@ import scaladget.stylesheet.{all => sheet}
 
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
-import org.scalajs.dom
 
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
-import sheet._
+import org.openmole.doc
 import bs._
 
 @JSExport("site.Site")
@@ -32,10 +31,14 @@ object Site extends JSApp {
       val div2 = vForm(bs.input("")(placeholder := "Name").render.withLabel("Your name"))
 
       val tabs = Tabs(sheet.pills).
-        add("Scala Task", div1).
-        add("Docker Task", div2, true)
+        add("Java / Scala", div1).
+        add("Docker", div2, true)
 
 
-      tabs.render
+     val mainDiv = tags.div(doc.sheet.mainDiv)(
+       tabs.render
+     )
+
+      mainDiv.render
     }
 }
