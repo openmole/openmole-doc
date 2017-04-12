@@ -2,6 +2,7 @@ package org.openmole.site
 
 import scalatags.JsDom.all._
 import scaladget.stylesheet.all._
+import scalatex.site.{ Highlighter, Section }
 
 /*
  * Copyright (C) 01/04/16 // mathieu.leclaire@openmole.org
@@ -27,4 +28,25 @@ package object sitesheet {
     width := "50%",
     margin := "0 auto"
   )
+}
+
+package object tools {
+  object sect extends Section()
+  object hl extends Highlighter {
+    override def suffixMappings = Map().withDefault(identity)
+    def openmole(code: String, test: Boolean = true, header: String = "") = {
+     // if (Config.testScript && test) DSLTest.test(code, header)
+      highlight(code, "scala")
+    }
+
+    def openmoleNoTest(code: String) = openmole(code, test = false)
+  }
+  case class Parameter(name: String, `type`: String, description: String)
+  def parameters(p: Parameter*) = {
+    def toRow(p: Parameter) = li(p.name + ": " + p.`type` + ": " + p.description)
+    ul(p.map(toRow))
+  }
+
+  def tq = """""""""
+
 }

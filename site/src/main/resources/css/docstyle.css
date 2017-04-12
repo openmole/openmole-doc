@@ -1,0 +1,4 @@
+/*Workaround for bug in highlight.js IDEA theme*/
+span.hljs-tag, span.hljs-symbol{
+  background: none;
+}

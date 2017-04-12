@@ -1,0 +1,6 @@
+
+@p
+  @a("www.google.com", href := "www.google.com")
+  @a(img(src := "Resource.iscpif.file"), href := "http://iscpif.fr", target := "_blank")
+  @a(img(src := "Resource.geocite.file", `class` := "logoGeocite"), href := "http://www.parisgeo.cnrs.fr/", target := "_blank")
+  @a(img(src := "Resource.biomedia.file", `class` := "logoBiomedia"), href := "http://biomedic.doc.ic.ac.uk/", target := "_blank")

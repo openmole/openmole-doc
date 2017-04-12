@@ -39,19 +39,25 @@ lazy val defaultSettings = Seq(
 )
 
 lazy val buildSite = taskKey[Unit]("buildSite")
+lazy val runTex = taskKey[Unit]("runTex")
 
-lazy val site = project.in(file("site"))  enablePlugins (ScalaJSPlugin) settings (defaultSettings: _*) settings(
+lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings (defaultSettings: _*) settings(scalatex.SbtPlugin.projectSettings) settings(
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalarx" % rxVersion,
+  libraryDependencies += "com.lihaoyi" %%% "scalatex-site" % "0.3.7",
   buildSite := {
     val siteTarget = target.value
     val siteResource = (resourceDirectory in Compile).value
     val siteJS = (fullOptJS in Compile).value
 
     IO.copyFile(siteJS.data, siteTarget / "js/site.js")
-    IO.copyFile(siteResource / "index.html", siteTarget / "index.html")
+    IO.copyFile(siteResource / "index.html", siteTarget / "openmole.html")
     IO.copyDirectory(siteResource / "js", siteTarget / "js")
     IO.copyDirectory(siteResource / "css", siteTarget / "css")
     IO.copyDirectory(siteResource / "fonts", siteTarget / "fonts")
   }
 )
+
+lazy val content = project.in(file("content")) settings (defaultSettings: _*)
+
+lazy val txmark = project.in(file("com.quandora.txtmark")) settings (defaultSettings: _*)
