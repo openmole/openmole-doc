@@ -59,5 +59,3 @@ lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings 
 )
 
 lazy val content = project.in(file("content")) settings (defaultSettings: _*)
-
-lazy val txmark = project.in(file("com.quandora.txtmark")) settings (defaultSettings: _*)
