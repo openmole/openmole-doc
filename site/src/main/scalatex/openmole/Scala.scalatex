@@ -23,8 +23,8 @@
   is here a multiplication by 2.
 
   @br @hl.openmole("""
-    val element = Val[Double]
-    val multiplied = Val[Double]
+    def element = Val[Double]
+    def multiplied = Val[Double]
     val result = Val[Double]
 
     val expensive = ScalaTask("val multiplied = element * 2") set (

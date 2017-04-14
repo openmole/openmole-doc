@@ -45,6 +45,7 @@ lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings 
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalarx" % rxVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalatex-site" % "0.3.7",
+  libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.3-SNAPSHOT",
   buildSite := {
     val siteTarget = target.value
     val siteResource = (resourceDirectory in Compile).value

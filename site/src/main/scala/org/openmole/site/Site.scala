@@ -35,7 +35,7 @@ object Site extends JSApp {
 
       mainDiv.render
     }
-    org.scalajs.dom.document.body.appendChild(tags.script("hljs.initHighlighting();"))
+    Highlighting.init
   }
 
 }
