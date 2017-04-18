@@ -8,7 +8,6 @@ import scala.scalajs.js.annotation.JSExport
 
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
-import scalatex.openmole.documentation.{language ⇒ language}
 import bs._
 
 @JSExport("site.Site")
@@ -18,20 +17,21 @@ object Site extends JSApp {
   def main(): Unit = {
     withBootstrapNative {
 
+      def buildTabs(docPages: Seq[DocumentationPage]) =
+        docPages.foldLeft(Tabs(sheet.pills))((tabs, t) => {
+          val aDiv = tags.div.render
+          raw(t.content.render).applyTo(aDiv)
+          tabs.add(t.name, tags.div(aDiv))
+        })
 
-      val div1 = tags.div.render
-      raw(language.task.Scala().render).applyTo(div1)
-
-      val div2 = vForm(bs.input("")(placeholder := "Name").render.withLabel("Your name"))
-
-      val tabs = Tabs(sheet.pills).
-        add("Java / Scala", tags.div(div1), true).
-        add("Docker", div2)
+      val taskTabs = buildTabs(DocumentationPages.root.language.task.children)
+      val methodTabs = Tabs(sheet.pills)
+      val envTabs = buildTabs(DocumentationPages.root.language.environment.children)
 
       val carousel = new StepCarousel(
-        Step("MODEL", tabs.render),
-        Step("METHOD", tabs.render),
-        Step("ENVIRONMENT ", tabs.render)
+        Step("MODEL", taskTabs.render),
+        Step("METHOD", methodTabs.render),
+        Step("ENVIRONMENT ", envTabs.render)
       )
 
       val mainDiv = tags.div(sitesheet.mainDiv)(
