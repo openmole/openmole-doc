@@ -28,13 +28,20 @@ object Site extends JSApp {
         add("Java / Scala", tags.div(div1), true).
         add("Docker", div2)
 
+      val carousel = new StepCarousel(
+        Step("MODEL", tabs.render),
+        Step("METHOD", tabs.render),
+        Step("ENVIRONMENT ", tabs.render)
+      )
 
       val mainDiv = tags.div(sitesheet.mainDiv)(
-        tabs.render
+        carousel.render
       )
 
       mainDiv.render
     }
+
+
     Highlighting.init
   }
 

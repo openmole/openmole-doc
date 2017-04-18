@@ -14,6 +14,7 @@ lazy val defaultSettings = Seq(
   version := "0.1-SNAPSHOT",
   scalaVersion := ScalaVersion,
   resolvers := Seq(Resolver.sonatypeRepo("snapshots"),
+    Resolver.sonatypeRepo("releases"),
     DefaultMavenRepository
   ),
   publishTo := {

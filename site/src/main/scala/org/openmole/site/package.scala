@@ -28,6 +28,16 @@ package object sitesheet {
     width := "50%",
     margin := "0 auto"
   )
+
+ lazy val stepHeader: ModifierSeq = Seq(
+    width := 300,
+    fontSize := 25,
+   fontWeight := 800
+ )
+
+  lazy val marginAuto: ModifierSeq = Seq(
+    margin := "0 auto"
+  )
 }
 
 package object tools {
