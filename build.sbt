@@ -40,13 +40,13 @@ lazy val defaultSettings = Seq(
 )
 
 lazy val buildSite = taskKey[Unit]("buildSite")
-lazy val runTex = taskKey[Unit]("runTex")
 
 lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings (defaultSettings: _*) settings(scalatex.SbtPlugin.projectSettings) settings(
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalarx" % rxVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalatex-site" % "0.3.7",
   libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.3-SNAPSHOT",
+  libraryDependencies += "org.scalaz" %%% "scalaz-core" % "7.2.10",
   buildSite := {
     val siteTarget = target.value
     val siteResource = (resourceDirectory in Compile).value

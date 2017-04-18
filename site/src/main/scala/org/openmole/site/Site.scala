@@ -8,7 +8,7 @@ import scala.scalajs.js.annotation.JSExport
 
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
-import scalatex.{openmole ⇒ scalatex}
+import scalatex.openmole.documentation.{language ⇒ language}
 import bs._
 
 @JSExport("site.Site")
@@ -20,7 +20,7 @@ object Site extends JSApp {
 
 
       val div1 = tags.div.render
-      raw(scalatex.Scala().render).applyTo(div1)
+      raw(language.task.Scala().render).applyTo(div1)
 
       val div2 = vForm(bs.input("")(placeholder := "Name").render.withLabel("Your name"))
 
