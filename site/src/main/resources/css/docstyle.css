@@ -2,3 +2,19 @@
 span.hljs-tag, span.hljs-symbol{
   background: none;
 }
+
+@font-face {
+    font-family: 'gi';
+    src: url('../fonts/gi.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    font-family:gi;
+    font-size: 17px;
+    }
+
+p{
+  padding-top:30px;
+}
