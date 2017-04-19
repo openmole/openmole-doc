@@ -36,7 +36,8 @@ class StepCarousel(steps: Step*) {
   val stepsSize = steps.size
 
   def toRight = current() = (current.now + 1) % stepsSize
-  def toLeft = current () = (current.now + stepsSize -1) % stepsSize
+
+  def toLeft = current() = (current.now + stepsSize - 1) % stepsSize
 
   val render = tags.div(
     Rx {

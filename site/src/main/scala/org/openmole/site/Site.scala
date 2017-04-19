@@ -17,25 +17,28 @@ object Site extends JSApp {
   def main(): Unit = {
     withBootstrapNative {
 
-      def buildTabs(docPages: Seq[DocumentationPage]) =
-        docPages.foldLeft(Tabs(sheet.pills))((tabs, t) => {
+      def buildTabs(docPages: Seq[DocumentationPage]) = {
+        val tabs = Tabs(sheet.pills)
+
+        docPages.foldLeft(tabs)((tabs, t) => {
           val aDiv = tags.div.render
           raw(t.content.render).applyTo(aDiv)
           tabs.add(t.name, tags.div(aDiv))
         })
+      }
 
-      val taskTabs = buildTabs(DocumentationPages.root.language.task.children)
-      val methodTabs = Tabs(sheet.pills)
-      val envTabs = buildTabs(DocumentationPages.root.language.environment.children)
+      lazy val methodTabs = buildTabs(DocumentationPages.root.language.method.children)
+      lazy val envTabs = buildTabs(DocumentationPages.root.language.environment.children)
+      lazy val taskTabs = buildTabs(DocumentationPages.root.language.task.children)
 
       val carousel = new StepCarousel(
-        Step("MODEL", taskTabs.render),
         Step("METHOD", methodTabs.render),
+        Step("MODEL", taskTabs.render),
         Step("ENVIRONMENT ", envTabs.render)
-      )
+      ).render
 
       val mainDiv = tags.div(sitesheet.mainDiv)(
-        carousel.render
+        carousel
       )
 
       mainDiv.render

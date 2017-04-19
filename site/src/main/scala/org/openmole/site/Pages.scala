@@ -350,8 +350,23 @@ object DocumentationPages { index ⇒
         def method = new DocumentationPage {
           def name = "Methods"
           override def title = Some(name)
-          def children = Seq()
+          def children = Seq(pse, profile)
           def content = documentation.language.Method()
+
+
+          def pse = new DocumentationPage {
+            def name = "PSE"
+            override def title = Some(name)
+            def children = Seq()
+            def content = documentation.language.method.PSE()
+          }
+
+          def profile = new DocumentationPage {
+            def name = "Profiles"
+            override def title = Some(name)
+            def children = Seq()
+            def content = documentation.language.method.Profile()
+          }
         }
       }
 
