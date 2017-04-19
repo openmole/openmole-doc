@@ -42,7 +42,6 @@ class StepCarousel(steps: Step*) {
   val render = tags.div(
     Rx {
       val step = steps(current())
-      println("SET " + step.element)
       tags.div(sitesheet.marginAuto)(
         tags.div(
           bs.glyphSpan(glyph_chevron_left +++ sitesheet.stepHeader +++ floatLeft, () => toLeft),
