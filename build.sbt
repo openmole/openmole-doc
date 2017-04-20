@@ -4,7 +4,7 @@ import Keys._
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
 val ScalaVersion = "2.11.8"
-val scalatagsVersion = "0.6.3"
+val scalatagsVersion = "0.6.5"
 val scalaJSdomVersion = "0.9.1"
 val rxVersion = "0.3.1"
 val scaladgetVersion = "0.9.4-SNAPSHOT"
@@ -45,7 +45,7 @@ lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings 
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalarx" % rxVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalatex-site" % "0.3.7",
-  libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.3-SNAPSHOT",
+  libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.2",
   libraryDependencies += "org.scalaz" %%% "scalaz-core" % "7.2.10",
   buildSite := {
     val siteTarget = target.value

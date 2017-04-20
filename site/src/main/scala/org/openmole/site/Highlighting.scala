@@ -1,7 +1,6 @@
 package org.openmole.site
 
-//import com.karasiq.highlightjs._
-import com.karasiq.highlightjs.{HighlightJS, HighlightJSConstants}
+import com.karasiq.highlightjs.HighlightJS
 
 import scala.scalajs.js
 import js.Dynamic.{literal => lit}
