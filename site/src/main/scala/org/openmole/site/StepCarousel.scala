@@ -27,7 +27,7 @@ import rx._
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-case class Step(name: String, element: HTMLElement)
+case class Step(name: String, element: HTMLElement, details: Seq[DocumentationPage] = Seq())
 
 class StepCarousel(steps: Step*) {
   implicit val ctx: Ctx.Owner = Ctx.Owner.safe()

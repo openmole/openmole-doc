@@ -59,5 +59,3 @@ lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings 
     IO.copyDirectory(siteResource / "fonts", siteTarget / "fonts")
   }
 )
-
-lazy val content = project.in(file("content")) settings (defaultSettings: _*)

@@ -21,6 +21,7 @@ import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
+import sheet._
 import bs._
 
 object UserGuide {
@@ -29,9 +30,20 @@ object UserGuide {
     val tabs = Tabs(sheet.pills)
 
     docPages.foldLeft(tabs)((tabs, t) => {
-      val aDiv = tags.div.render
+      val aDiv = tags.div(sheet.paddingTop(60)).render
       raw(t.content.render).applyTo(aDiv)
-      tabs.add(t.name, tags.div(aDiv))
+
+      val withDetails = div(
+        tags.div(sheet.floatRight)(
+          for {
+            d <- t.details
+          } yield {
+            tags.div(sheet.paddingTop(10), bs.button(d.name, "", btn_danger))
+          }),
+        aDiv
+      )
+
+      tabs.add(t.name, withDetails)
     })
   }
 
