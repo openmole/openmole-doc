@@ -24,7 +24,7 @@ package object sitesheet {
   import scaladget.stylesheet.all._
 
   lazy val mainDiv: ModifierSeq = Seq(
-    scaladget.stylesheet.all.paddingTop(50),
+    scaladget.stylesheet.all.paddingTop(100),
     width := "50%",
     margin := "0 auto"
   )
