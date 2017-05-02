@@ -1,5 +1,10 @@
 package org.openmole.site
 
+import org.scalajs.dom.html.Div
+import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
+
+import scalatags.JsDom.TypedTag
+
 
 /*
  * Copyright (C) 01/04/16 // mathieu.leclaire@openmole.org
@@ -29,11 +34,11 @@ package object sitesheet {
     margin := "0 auto"
   )
 
- lazy val stepHeader: ModifierSeq = Seq(
+  lazy val stepHeader: ModifierSeq = Seq(
     width := 300,
     fontSize := 25,
-   fontWeight := 800
- )
+    fontWeight := 800
+  )
 
   lazy val marginAuto: ModifierSeq = Seq(
     margin := "0 auto"
@@ -68,4 +73,19 @@ package object tools {
 
   def tq = """""""""
 
+}
+
+package object utils {
+
+  import scalatags.JsDom.all.raw
+  import scaladget.api.{BootstrapTags => bs}
+  import scaladget.stylesheet.{all => sheet}
+  import scalatags.JsDom.tags
+  import scalatags.JsDom.all._
+
+  implicit def texToDiv(textFrag: scalatags.Text.all.Frag): HTMLDivElement = {
+    val aDiv = tags.div(sheet.paddingTop(60)).render
+    raw(textFrag.render).applyTo(aDiv)
+    aDiv
+  }
 }
