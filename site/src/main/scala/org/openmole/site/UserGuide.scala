@@ -38,7 +38,7 @@ object UserGuide {
           for {
             d <- t.details
           } yield {
-            tags.div(sheet.paddingTop(10), bs.button(d.name, "", btn_danger))
+            tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger))
           }),
         aDiv
       )
@@ -52,8 +52,8 @@ object UserGuide {
   private lazy val taskTabs = buildTabs(DocumentationPages.root.language.task.children)
 
   lazy val carousel = new StepCarousel(
-    Step("METHOD", methodTabs.render),
     Step("MODEL", taskTabs.render),
+    Step("METHOD", methodTabs.render),
     Step("ENVIRONMENT ", envTabs.render)
   ).render
 }
