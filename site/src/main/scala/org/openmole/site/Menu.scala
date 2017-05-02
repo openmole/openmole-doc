@@ -65,6 +65,6 @@ object Menu {
       searchItem.right,
       demoItem.right,
       issueItem.right
-    ).render
+    ).withBrand("img/openmole.png", width := 240, ()=> currentCatergory() = category.Home).render
   }
 }

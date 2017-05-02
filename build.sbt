@@ -57,5 +57,6 @@ lazy val site = project.in(file("site")) enablePlugins (ScalaJSPlugin) settings 
     IO.copyDirectory(siteResource / "js", siteTarget / "js")
     IO.copyDirectory(siteResource / "css", siteTarget / "css")
     IO.copyDirectory(siteResource / "fonts", siteTarget / "fonts")
+    IO.copyDirectory(siteResource / "img", siteTarget / "img")
   }
 )
