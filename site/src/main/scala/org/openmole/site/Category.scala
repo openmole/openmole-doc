@@ -24,4 +24,10 @@ package object category {
   object Documentation extends Category
 
   object Home extends Category
+
+  object Faq extends Category
+
+  object Download extends Category
+
+  object Issue extends Category
 }

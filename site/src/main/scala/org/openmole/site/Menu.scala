@@ -30,31 +30,41 @@ object Menu {
 
   def build = {
     val docItem = stringNavItem("DOCUMENTATION", () ⇒
-     currentCatergory() = category.Documentation
+      currentCatergory() = category.Documentation
     )
 
-    val downloadItem = navItem(
-      bs.button("DOWNLOAD", btn_primary, () => {
-        println("Five open")
-      }).render
+    val downloadItem = stringNavItem("DOWNLOAD", () ⇒
+      currentCatergory() = category.Download
+    )
+
+    val faqItem = stringNavItem("FAQ", () ⇒
+      currentCatergory() = category.Faq
     )
 
     val demoItem = navItem(
       bs.linkButton("DEMO", "http://demo.openmole.org", btn_primary).render
     )
 
+
     val searchItem = navItem(
       bs.input("")(placeholder := "Search", width := 150).render, () ⇒
         println("Search")
     )
 
+    val issueItem = navItem(
+      bs.linkButton("ISSUES", "http://discourse.iscpif.fr", btn_primary).render,
+      extraRenderPair = navbar_right
+    )
+
     //Create the nav bar
     bs.navBar(
-      navbar_staticTop +++ navbar_inverse,
-      docItem,
-      downloadItem,
-      demoItem,
-      searchItem
+      navbar_staticTop +++ navbar_inverse +++ sheet.paddingRight(20),
+      docItem.right,
+      faqItem.right,
+      downloadItem.right,
+      searchItem.right,
+      demoItem.right,
+      issueItem.right
     ).render
   }
 }

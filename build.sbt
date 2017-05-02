@@ -7,7 +7,7 @@ val ScalaVersion = "2.11.8"
 val scalatagsVersion = "0.6.5"
 val scalaJSdomVersion = "0.9.1"
 val rxVersion = "0.3.1"
-val scaladgetVersion = "0.9.4-SNAPSHOT"
+val scaladgetVersion = "0.9.5-SNAPSHOT"
 
 lazy val defaultSettings = Seq(
   organization := "org.openmole",
