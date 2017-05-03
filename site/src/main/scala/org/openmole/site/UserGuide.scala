@@ -17,9 +17,12 @@ package org.openmole.site
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.openmole.site.utils._
+import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
+
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
-import scalatags.JsDom.tags
+import scalatags.JsDom.{TypedTag, tags}
 import scalatags.JsDom.all._
 import sheet._
 import bs._
@@ -30,17 +33,19 @@ object UserGuide {
     val tabs = Tabs(sheet.pills)
 
     docPages.foldLeft(tabs)((tabs, t) => {
-      val aDiv = tags.div(sheet.paddingTop(60)).render
-      raw(t.content.render).applyTo(aDiv)
+      val content: HTMLDivElement = t.content
 
       val withDetails = div(
-        tags.div(sheet.floatRight)(
+        tags.div(sitesheet.detailButtons)(
           for {
             d <- t.details
           } yield {
-            tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger))
+            tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger).expandOnclick({
+              lazy val content: HTMLDivElement = d.content
+              tags.div(content)
+            }))
           }),
-        aDiv
+        content
       )
 
       tabs.add(t.name, withDetails)

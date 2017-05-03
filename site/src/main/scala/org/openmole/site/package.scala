@@ -1,9 +1,10 @@
 package org.openmole.site
 
-import org.scalajs.dom.html.Div
-import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
-
-import scalatags.JsDom.TypedTag
+import org.scalajs.dom.raw.HTMLDivElement
+import scaladget.api.{BootstrapTags => bs}
+import scaladget.stylesheet.{all => sheet}
+import bs._
+import sheet._
 
 
 /*
@@ -42,6 +43,13 @@ package object sitesheet {
 
   lazy val marginAuto: ModifierSeq = Seq(
     margin := "0 auto"
+  )
+
+  lazy val detailButtons: ModifierSeq = Seq(
+    float := "left",
+    fixedPosition,
+    top := 500,
+    scalatags.JsDom.all.marginLeft := -150
   )
 }
 
