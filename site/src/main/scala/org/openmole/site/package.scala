@@ -88,4 +88,8 @@ package object utils {
     raw(textFrag.render).applyTo(aDiv)
     aDiv
   }
+
+  implicit def SomeTexToDiv(textFrag: Option[scalatags.Text.all.Frag]): HTMLDivElement = {
+    textFrag.map(t => texToDiv(t)).getOrElse(div().render)
+  }
 }
