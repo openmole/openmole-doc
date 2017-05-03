@@ -3,13 +3,10 @@
 @import org.openmole.site._
 
 
-@sect{Introducing your model to OpenMOLE}
-    Introduction text here
-
-    @p Some text
-
-    @ul
-        @li
-        Some list item
-        @li
-        another one
+@b
+    Embedding your model into OpenMOLE
+@p
+    Before your model can be investigated by OpenMOLE, it must be properly introduced.
+    This formal presentation is performed in various manners, depending on the language you used for your model.
+@p
+    Select the language of your model in the tabs below.

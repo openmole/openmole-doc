@@ -56,12 +56,12 @@ object UserGuide {
 
   private lazy val methodTabs = buildTabs(DocumentationPages.root.language.method.children)
   private lazy val envTabs = buildTabs(DocumentationPages.root.language.environment.children)
-  private lazy val taskTabs = buildTabs(DocumentationPages.root.language.task.children)
-  
-  lazy val carousel = new StepCarousel(
-    Step("MODEL", taskTabs.render, Seq(), DocumentationPages.root.language.task.intro),
-    Step("METHOD", methodTabs.render, Seq(),DocumentationPages.root.language.method.intro),
-    Step("ENVIRONMENT ", envTabs.render, Seq(), DocumentationPages.root.language.environment.intro)
+  private lazy val taskTabs = buildTabs(DocumentationPages.root.language.model.children)
+
+   lazy val carousel = new StepCarousel(
+    Step("1.MODEL", taskTabs.render, Seq(), DocumentationPages.root.language.model.intro),
+    Step("2.METHOD", methodTabs.render, Seq(),DocumentationPages.root.language.method.intro),
+    Step("3.ENVIRONMENT ", envTabs.render, Seq(), DocumentationPages.root.language.environment.intro)
   ).render
 
 

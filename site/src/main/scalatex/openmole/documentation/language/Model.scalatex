@@ -40,8 +40,8 @@
     to business:
 
     @ul
-      @li{@a("the CARETask and SystemExecTask", href := DocumentationPages.root.language.task.native.file), to execute your own binary executables,}
-      @li{@a("the ScalaTask", href := DocumentationPages.root.language.task.scala.file), to execute Java programs (works as well for other
+      @li{@a("the CARETask and SystemExecTask", href := DocumentationPages.root.language.model.native.file), to execute your own binary executables,}
+      @li{@a("the ScalaTask", href := DocumentationPages.root.language.model.scala.file), to execute Java programs (works as well for other
       JVM based languages),}
-      @li{@a("the NetLogoTask", href := DocumentationPages.root.language.task.netLogo.file), to execute your NetLogo models,}
-      @li{@a("the MoleTask", href := DocumentationPages.root.language.task.mole.file), to execute workflows inside your workflows}
+      @li{@a("the NetLogoTask", href := DocumentationPages.root.language.model.netLogo.file), to execute your NetLogo models,}
+      @li{@a("the MoleTask", href := DocumentationPages.root.language.model.mole.file), to execute workflows inside your workflows}

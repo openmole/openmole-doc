@@ -270,19 +270,19 @@ object DocumentationPages {
 
         override def title = Some(name)
 
-        def children = Seq(task, sampling, transition, hook, environment, source, method)
+        def children = Seq(model, sampling, transition, hook, environment, source, method)
 
         def content = documentation.Language()
         def details = Seq()
 
 
 
-        def task = new DocumentationPage {
-          def name = "Tasks"
+        def model = new DocumentationPage {
+          def name = "Models"
           override def title = Some(name)
-          def children = Seq(scala, native, netLogo, mole)
+          def children = Seq(scala, java, rscript, python , ccplusplus, native, netLogo, mole)
           def details = Seq()
-          def content = documentation.language.Task()
+          def content = documentation.language.Model()
           override def intro = Some(documentation.language.ModelIntro())
 
           def scala = new DocumentationPage {
@@ -290,23 +290,52 @@ object DocumentationPages {
             override def title = Some(name)
             def children = Seq()
             def details = Seq()
-            def content = documentation.language.task.Scala()
+            def content = documentation.language.model.Scala()
+          }
+          def java = new DocumentationPage {
+            def name = "Java"
+            override def title = Some(name)
+            def children = Seq()
+            def details = Seq()
+            def content = documentation.language.model.Java()
           }
 
           def native = new DocumentationPage {
             def name = "Native"
             override def title = Some(name)
             def children = Seq()
-            def details = Seq(nativeAPI, nativePackaging)
-            def content = documentation.language.task.Native()
+            def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
+            def content = documentation.language.model.Native()
           }
+          def ccplusplus = new DocumentationPage {
+            def name = "C/C++"
+            override def title = Some(name)
+            def children = Seq()
+            def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
+            def content = documentation.language.model.CCplusplus()
+          }
+          def rscript = new DocumentationPage {
+            def name = "R Script "
+            override def title = Some(name)
+            def children = Seq()
+            def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
+            def content = documentation.language.model.RScript()
+          }
+          def python = new DocumentationPage {
+            def name = "Python  "
+            override def title = Some(name)
+            def children = Seq()
+            def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
+            def content = documentation.language.model.Python()
+          }
+
 
           def netLogo = new DocumentationPage {
             def name = "NetLogo"
             override def title = Some(name)
             def children = Seq()
             def details = Seq()
-            def content = documentation.language.task.NetLogo()
+            def content = documentation.language.model.NetLogo()
           }
 
           def mole = new DocumentationPage {
@@ -314,7 +343,7 @@ object DocumentationPages {
             override def title = Some(name)
             def children = Seq()
             def details = Seq()
-            def content = documentation.language.task.MoleTask()
+            def content = documentation.language.model.MoleTask()
           }
 
           //details
@@ -333,6 +362,16 @@ object DocumentationPages {
             def details = Seq()
             def content = documentation.details.NativePackaging()
           }
+          //troubleshooting care
+          def CARETroubleshooting = new DocumentationPage {
+            def name = "CARE Troubleshooting"
+            override def title = Some(name)
+            def children = Seq()
+            def details = Seq()
+            def content = documentation.details.CARETroubleShooting()
+          }
+
+
 
         }
 

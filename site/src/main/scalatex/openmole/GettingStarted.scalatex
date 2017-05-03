@@ -73,7 +73,7 @@ $tasks
 
   @p This is just a tiny bit of what OpenMOLE can achieve! Now you might want to discover how to:
   @ul
-    @li{include your program in the @a("task documentation", href := root.language.task.file),}
+    @li{include your program in the @a("Model documentation", href := root.language.model.file),}
     @li{define your environment in the @a("environment documentation", href := root.language.environment.file),}
     @li{describe your design of experiments in the @a("sampling documentation", href := root.language.sampling.file).}
 

@@ -49,7 +49,7 @@ class StepCarousel(steps: Step*) {
           span(step.name, sitesheet.stepHeader +++ sitesheet.marginAuto),
           bs.glyphSpan(glyph_chevron_right +++ sitesheet.stepHeader +++ floatRight, () => toRight)
         ),
-        div(all.paddingTop := 60, intro),
+        div(all.paddingTop := 5, intro),
         div(all.paddingTop := 60)(step.element)
       )
     }

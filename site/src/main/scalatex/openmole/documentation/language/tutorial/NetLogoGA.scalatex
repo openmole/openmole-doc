@@ -101,7 +101,7 @@
     When building a calibration or optimisation workflow, the first step is to make the model run in
     OpenMOLE. This script simply embeds the NetLogo model and runs one single execution of the model with arbitrary
     parameters. More details about the NetLogo5 task used in this script can be found in
-    @a("this section of the documentation", href := DocumentationPages.root.language.task.netLogo.file).
+    @a("this section of the documentation", href := DocumentationPages.root.language.model.netLogo.file).
 
     @hl.openmole(s"""
     $model
