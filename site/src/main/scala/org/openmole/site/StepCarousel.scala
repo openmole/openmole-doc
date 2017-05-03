@@ -3,8 +3,8 @@ package org.openmole.site
 import scaladget.tools.JsRxTags._
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
-import org.scalajs.dom.raw.HTMLElement
-
+import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
+import org.openmole.site.utils._
 import scalatags.JsDom.all._
 import scalatags.JsDom._
 import sheet._
@@ -27,7 +27,7 @@ import rx._
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-case class Step(name: String, element: HTMLElement, details: Seq[DocumentationPage] = Seq())
+case class Step(name: String, element: HTMLElement, details: Seq[DocumentationPage] = Seq(), intro: Option[scalatags.Text.all.Frag])
 
 class StepCarousel(steps: Step*) {
   implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
@@ -42,12 +42,14 @@ class StepCarousel(steps: Step*) {
   val render = tags.div(
     Rx {
       val step = steps(current())
+      val intro : HTMLDivElement = step.intro
       tags.div(sitesheet.marginAuto)(
         tags.div(
           bs.glyphSpan(glyph_chevron_left +++ sitesheet.stepHeader +++ floatLeft, () => toLeft),
           span(step.name, sitesheet.stepHeader +++ sitesheet.marginAuto),
           bs.glyphSpan(glyph_chevron_right +++ sitesheet.stepHeader +++ floatRight, () => toRight)
         ),
+        div(all.paddingTop := 60, intro),
         div(all.paddingTop := 60)(step.element)
       )
     }

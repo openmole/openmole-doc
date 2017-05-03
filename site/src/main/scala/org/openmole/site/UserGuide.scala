@@ -22,7 +22,9 @@ import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
 
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
-import scalatags.JsDom.{TypedTag, tags}
+import scalatags.JsDom.tags
+import org.openmole.site.utils._
+import org.scalajs.dom.raw.HTMLDivElement
 import scalatags.JsDom.all._
 import sheet._
 import bs._
@@ -55,10 +57,14 @@ object UserGuide {
   private lazy val methodTabs = buildTabs(DocumentationPages.root.language.method.children)
   private lazy val envTabs = buildTabs(DocumentationPages.root.language.environment.children)
   private lazy val taskTabs = buildTabs(DocumentationPages.root.language.task.children)
-
+  
   lazy val carousel = new StepCarousel(
-    Step("MODEL", taskTabs.render),
-    Step("METHOD", methodTabs.render),
-    Step("ENVIRONMENT ", envTabs.render)
+    Step("MODEL", taskTabs.render, Seq(), DocumentationPages.root.language.task.intro),
+    Step("METHOD", methodTabs.render, Seq(),DocumentationPages.root.language.method.intro),
+    Step("ENVIRONMENT ", envTabs.render, Seq(), DocumentationPages.root.language.environment.intro)
   ).render
+
+
 }
+
+

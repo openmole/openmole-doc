@@ -1,0 +1,15 @@
+
+@import org.openmole.site.tools._
+@import org.openmole.site._
+
+
+@sect{Introducing your model to OpenMOLE}
+    Introduction text here
+
+    @p Some text
+
+    @ul
+        @li
+        Some list item
+        @li
+        another one

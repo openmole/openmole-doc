@@ -20,6 +20,9 @@ package org.openmole.site
 
 //import org.openmole.site.market._
 
+import org.scalajs.dom.raw.HTMLDivElement
+
+import scalatags.JsDom.TypedTag
 import scalatags.Text.all._
 //import com.github.rjeschke._
 //import org.openmole.site.market.Market.Tags
@@ -107,6 +110,8 @@ abstract class DocumentationPage(implicit p: Parent[DocumentationPage] = Parent(
 
   def title: Option[String] = None
 
+  def intro: Option[scalatags.Text.all.Frag] = None
+
   override def location: Seq[String] =
     parent match {
       case None ⇒ Seq(name)
@@ -139,15 +144,17 @@ object DocumentationPages {
              content: Frag,
              children: Seq[DocumentationPage] = Seq.empty,
              details: Seq[DocumentationPage] = Seq.empty,
-             location: Option[Seq[String]] = None
+             location: Option[Seq[String]] = None,
+             intro: Option[Frag] = None
            )(implicit p: Parent[DocumentationPage] = Parent(None)) = {
-    val (_name, _content, _details, _children, _location) = (name, content, details, children, location)
+    val (_name, _content, _details, _children, _location, _intro) = (name, content, details, children, location, intro)
     new DocumentationPage {
       override def children = _children
       override def name = _name
       override def content = _content
       override def details = _details
       override def location = _location.getOrElse(super.location)
+      override def intro = _intro
     }
   }
 
@@ -268,12 +275,15 @@ object DocumentationPages {
         def content = documentation.Language()
         def details = Seq()
 
+
+
         def task = new DocumentationPage {
           def name = "Tasks"
           override def title = Some(name)
           def children = Seq(scala, native, netLogo, mole)
           def details = Seq()
           def content = documentation.language.Task()
+          override def intro = Some(documentation.language.ModelIntro())
 
           def scala = new DocumentationPage {
             def name = "Scala"
@@ -356,6 +366,7 @@ object DocumentationPages {
           def children = Seq(multithread, ssh, egi, cluster, desktopGrid)
           def details = Seq()
           def content = documentation.language.Environment()
+          override def intro = Some(documentation.language.environment.EnvironmentIntro())
 
           def multithread = new DocumentationPage {
             def name = "Multi-threads"
@@ -412,6 +423,7 @@ object DocumentationPages {
           override def title = Some(name)
           def children = Seq(pse, profile)
           def details = Seq()
+          override def intro = Some(documentation.language.method.MethodIntro())
           def content = documentation.language.Method()
 
 
