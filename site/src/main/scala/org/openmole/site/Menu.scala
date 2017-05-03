@@ -65,6 +65,6 @@ object Menu {
       searchItem.right,
       demoItem.right,
       issueItem.right
-    ).withBrand("img/openmole.png", width := 240, ()=> currentCatergory() = category.Home).render
+    ).withBrand("img/openmole.png", width := 240, ()=> org.scalajs.dom.window.location.reload(false)).render
   }
 }
