@@ -28,7 +28,7 @@ import sheet._
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-case class Step(name: String, element: HTMLElement, details: Seq[JSDocumentationPage] = Seq(), intro: Option[scalatags.Text.all.Frag])
+case class Step(name: String, element: HTMLElement, details: Seq[JSDocumentationPage] = Seq())
 
 class StepCarousel(steps: Step*) {
   implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
@@ -43,15 +43,16 @@ class StepCarousel(steps: Step*) {
   val render = tags.div(
     Rx {
       val step = steps(current())
-      val intro : HTMLDivElement = div("intro ...").render//step.intro
-      div(sitesheet.marginAuto)(
-        tags.div(
+      val intro: HTMLDivElement = div("intro ...").render //step.intro
+      tags.div(
+      tags.div(width := "100%")(
+        tags.div(marginAuto)(
           bs.glyphSpan(glyph_chevron_left +++ sitesheet.stepHeader +++ floatLeft, () => toLeft),
           span(step.name, sitesheet.stepHeader +++ sitesheet.marginAuto),
           bs.glyphSpan(glyph_chevron_right +++ sitesheet.stepHeader +++ floatRight, () => toRight)
-        ),
-        div(sheet.paddingTop(5), intro),
-        div(sheet.paddingTop(60))(step.element)
+        )),
+      div(sheet.paddingTop(25), "intro"),
+      div(sheet.paddingTop(600))(step.element)
       )
     }
   )

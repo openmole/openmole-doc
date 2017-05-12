@@ -25,13 +25,11 @@ package object tools {
 
   object sect extends Section()
 
-  object hl /*extends Highlighter */{
-  //  override def suffixMappings = Map().withDefault(identity)
+  object hl extends Highlighter {
+    //  override def suffixMappings = Map().withDefault(identity)
 
-    def highlight(s: String, s2: String) = s
     def openmole(code: String, test: Boolean = true, header: String = "") = {
-     // highlight(code, "scala")
-      code
+      highlight(code, "scala")
     }
 
 

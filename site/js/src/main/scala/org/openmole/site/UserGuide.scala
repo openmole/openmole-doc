@@ -21,46 +21,55 @@ import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
 
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
+import scaladget.tools.JsRxTags._
 import scalatags.JsDom.tags
 import org.scalajs.dom.raw.HTMLDivElement
+
 import scalatags.JsDom.all._
 import sheet._
 import bs._
 
 object UserGuide {
 
-//  private def buildTabs(docPages: Seq[DocumentationPage]) = {
-//    val tabs = Tabs(sheet.pills)
-//
-//    docPages.foldLeft(tabs)((tabs, t) => {
-//      val content: HTMLDivElement = t.content
-//
-//      val withDetails = div(
-//        tags.div(sitesheet.detailButtons)(
-//          for {
-//            d <- t.details
-//          } yield {
-//            tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger).expandOnclick({
-//              lazy val content: HTMLDivElement = d.content
-//              tags.div(content)
-//            }))
-//          }),
-//        content
-//      )
-//
-//      tabs.add(t.name, withDetails)
-//    })
-//  }
-//
-//  private lazy val methodTabs = buildTabs(DocumentationPages.root.language.method.children)
-//  private lazy val envTabs = buildTabs(DocumentationPages.root.language.environment.children)
-//  private lazy val taskTabs = buildTabs(DocumentationPages.root.language.model.children)
-//
-//   lazy val carousel = new StepCarousel(
-//    Step("1.MODEL", taskTabs.render, Seq(), DocumentationPages.root.language.model.intro),
-//    Step("2.METHOD", methodTabs.render, Seq(),DocumentationPages.root.language.method.intro),
-//    Step("3.ENVIRONMENT ", envTabs.render, Seq(), DocumentationPages.root.language.environment.intro)
-//  ).render
+  val replacer = utils.replacer
+
+  private def buildTabs(docPages: Seq[JSDocumentationPage]) = {
+    val tabs = Tabs(sheet.pills)
+
+    docPages.foldLeft(tabs)((tabs, t) => {
+
+      val withDetails = tags.div(
+        tags.div(sitesheet.detailButtons)(
+          for {
+            d <- t.details
+          } yield {
+            tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger))
+          }),
+        replacer.tag
+      )
+
+      tabs.add(t.name, withDetails)
+    })
+  }
+
+  def addCarousel = {
+
+    val methodTabs = buildTabs(JSPages.documentation_language_methods.children)
+    val envTabs = buildTabs(JSPages.documentation_language_environments.children)
+    val taskTabs = buildTabs(JSPages.documentation_language_models.children)
+
+
+    val carrousel = tags.div(sitesheet.mainDiv)(
+      new StepCarousel(
+        Step("1.MODEL", taskTabs.render, Seq()),
+        Step("2.METHOD", methodTabs.render, Seq()),
+        Step("3.ENVIRONMENT ", envTabs.render, Seq())
+      ).render
+    )
+
+    org.scalajs.dom.window.document.body.appendChild(carrousel)
+    replacer.replaceWith(shared.sitexDoc)
+  }
 
 
 }

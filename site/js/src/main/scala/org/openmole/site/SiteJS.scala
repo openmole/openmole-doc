@@ -1,15 +1,17 @@
 package org.openmole.site
 
+import org.scalajs.dom.raw.NodeList
+
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
 import scaladget.tools.JsRxTags._
-
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation._
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
 import bs._
 import rx._
+
 /*
  * Copyright (C) 09/05/17 // mathieu.leclaire@openmole.org
  *
@@ -32,27 +34,22 @@ object SiteJS extends JSApp {
 
   @JSExport()
   def main(): Unit = {
-    withBootstrapNative {
 
+    JSPages.toJSPage(org.scalajs.dom.window.location.pathname.split('/').last) foreach { page =>
 
+      withBootstrapNative {
 
-      val mainDiv = tags.div(
-        Menu.build
-        //          tags.div(sitesheet.mainDiv)(
-        //            Rx {
-        //              Menu.currentCatergory() match {
-        //                case category.Documentation=> UserGuide.carousel.render
-        //                case category.Home=> tags.div("Home").render
-        //                case _=> tags.div("Else").render
-        //              }
-        //            }
-        //          )
-      )
+        val mainDiv = tags.div(
+          Menu.build
+        )
+        mainDiv.render
+      }
+      page match {
+        case _: JSDocumentationPage => UserGuide.addCarousel
+        case _ => div("Regular")
+      }
 
-      mainDiv.render
+      Highlighting.init
     }
-
-
-   // Highlighting.init
   }
 }

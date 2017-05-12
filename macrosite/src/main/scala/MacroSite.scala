@@ -12,31 +12,62 @@ object MacroSite extends App {
     val targetFile = File(args(0))
     targetFile.createIfNotExists()
 
-    println("TARGET " + targetFile)
 
     val header =
       """
       package org.openmole.site
 
         trait JSPage {
+          def name: String
           def file: String
+          def details: Seq[JSPage]
           }
-        case class JSMainPage(file: String) extends JSPage
-        case class JSDocumentationPage(file: String) extends JSPage
+        case class JSMainPage(name: String, file: String, details: Seq[JSPage] = Seq()) extends JSPage
+        case class JSDocumentationPage(name: String, file: String, details: Seq[JSPage] = Seq(), children: Seq[JSDocumentationPage] = Seq()) extends JSPage
 
       object JSPages {
+
+        def toJSPage(file: String): Option[JSPage] = all.filter(_.file == file).headOption
       """.stripMargin
 
     val footer = "\n\n}"
 
-    targetFile overwrite Pages.all.foldLeft(header) { (acc, page) =>
-      println(page.location)
-      val constr = page match {
-        case dp: DocumentationPage => "JSDocumentationPage"
-        case _ => "JSMainPage"
+    case class MacroPage(page: Page, name: String, isDoc: Boolean, file: String)
+    def valName(page: Page) = page.location.mkString("_").replaceAll(" ", "_").replaceAll("-", "_").toLowerCase
+
+    implicit def pageSeqToMacroPageSeq(ps: Seq[Page]): Seq[MacroPage] = ps.map { p => MacroPage(p, valName(p), Pages.isDoc(p), Pages.file(p)) }
+
+    val pageMap: Seq[MacroPage] = Pages.all
+
+    def listOf(prefix: String, macroPages: Seq[MacroPage]) = {
+
+      if (macroPages.isEmpty) ""
+      else
+        s""", $prefix=Seq(${
+          macroPages.map {
+            _.name
+          }.mkString(",")
+        })"""
+    }
+
+    def children(page: Page) =
+      page match {
+        case dp: DocumentationPage => listOf("children", dp.children)
+        case _ => ""
       }
-      acc + s"""\nval ${page.location.mkString("_").replaceAll(" ", "_").replaceAll("-","_").toLowerCase} = $constr("${Pages.file(page)}")"""
-    } + footer
+
+
+  val content = pageMap.foldLeft(header) { case (acc, macropage) =>
+    val constr = macropage.isDoc match {
+      case true => "JSDocumentationPage"
+      case _ => "JSMainPage"
+    }
+    acc +
+      s"""\nlazy val ${macropage.name} = $constr("${macropage.page.name}", "${macropage.file}"${children(macropage.page)}${listOf("details", macropage.page.details)})"""
+      } + s"""\n\nlazy val all = Seq(${pageMap.map{_.name}.mkString(", ")})""" + footer
+
+    println(content)
+    targetFile overwrite content
 
   }
 }

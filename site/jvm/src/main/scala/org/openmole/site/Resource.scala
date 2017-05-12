@@ -45,7 +45,7 @@ object Resource {
 
   def bootstrapJS = FileResource("js/bootstrap-native.min.js")
 
-  def highlightJS = FileResource("highlight.pack.js")
+  def highlightJS = FileResource("js/highlight.pack.js")
 
   def siteJS = FileResource("js/sitejs.js")
 

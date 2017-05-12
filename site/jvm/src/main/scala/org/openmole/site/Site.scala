@@ -86,7 +86,6 @@ object Site extends App {
 
     val parameters = parse(args.toList.map(_.trim))
 
-    println("parameters " + parameters)
     // Config.testScript = parameters.test
 
     val dest = parameters.target.getOrElse(new File("/tmp/openmole-site"))
@@ -126,48 +125,54 @@ object Site extends App {
           script(src := Resource.siteJS.file),
           script(src := Resource.lunr.file),
           script(src := Resource.index.file),
-        //  script("hljs.initHighlightingOnLoad();"),
+          //  script("hljs.initHighlightingOnLoad();"),
 
           meta(charset := "UTF-8"),
           piwik
         )
 
+//
+//      def ifDoc(page: org.openmole.site.Page, ID: String, IDelse: String, content: String) =
+//      div(id := {
+//        if (Pages.isDoc(page)) shared.sitexDoc else shared.sitexMain
+//      }, page.content)
+
       /**
         * The body of this site's HTML page
         */
-      override def bodyFrag(frag: Frag): Frag = body(
-        Seq(
-          cls := "scalatex-content"
-        ) ++ (if (documentationFrags.contains(frag)) Seq(id := "top-content-documentation"/*, onload := "Test().loadIndex(index);"*/) else Seq())
-          ++ Seq(frag): _*
-      )(onload := "org.openmole.site.SiteJS().main();")
+      def bodyFrag(page: org.openmole.site.Page) = body(
+        div(id := {
+          if (Pages.isDoc(page)) shared.sitexDoc else shared.sitexMain
+        }, page.content),
+        onload := "org.openmole.site.SiteJS().main();"
+      )
 
       override def generateHtml(outputRoot: Path) = {
-        val res = content map {
-          case (path, (pageHeaders, pageBody)) ⇒ {
-            val txt = html(
-              head(pageHeaders),
-              bodyFrag(pageBody)
-            ).render
-            val cb = CharBuffer.wrap("<!DOCTYPE html>" + txt)
-            val bytes = scala.io.Codec.UTF8.encoder.encode(cb)
-            val target = outputRoot / path
-            write.over(target, bytes.array())
-            //     LunrIndex.Index(path, txt)
-          }
+        val res = Pages.all.map { page =>
+          val txt = html(
+            head(headFrags(page)),
+            bodyFrag(bodyFrag(page))
+          ).render
+          val cb = CharBuffer.wrap("<!DOCTYPE html>" + txt)
+          val bytes = scala.io.Codec.UTF8.encoder.encode(cb)
+          val target = outputRoot / page.file
+          write.over(target, bytes.array())
+          //     LunrIndex.Index(path, txt)
         }
+
         //  write.over(outputRoot / "index.js", "var index = " + JsArray(res.toVector).compactPrint)
       }
 
       import scalaz._
       import Scalaz._
 
-      lazy val pagesFrag =
-        Pages.all.toVector.traverseU { p ⇒ Pages.decorate(p).map(PageFrag(p, _)) }.run(new java.io.File("")/*parameters.resources.get*/)
+      lazy val pagesFrag = Pages.all.map {
+        _.content
+      } /*.toVector.traverseU { p ⇒ Pages.decorate(p).map(PageFrag(p, _)) }.run(new java.io.File("") /*parameters.resources.get*/)*/
 
-      lazy val documentationFrags = pagesFrag.collect { case PageFrag(p: DocumentationPage, f) ⇒ f }.toSet
+      def content = Pages.all.map { p => p.file → (site.headFrags(p), p.content) }.toMap
 
-      def content = pagesFrag.map { case PageFrag(p, f) ⇒ p.file → (site.headFrags(p), f) }.toMap
+      // def content = //pagesFrag.map { case PageFrag(p, f) ⇒ p.file → (site.headFrags(p), f) }.toMap
 
     }
 

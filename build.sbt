@@ -5,7 +5,6 @@ import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 val ScalaVersion = "2.11.8"
 val scalatagsVersion = "0.6.5"
 val scalaJSdomVersion = "0.9.1"
-val upickleVersion = "0.4.4"
 val rxVersion = "0.3.1"
 val scaladgetVersion = "0.9.5-SNAPSHOT"
 
@@ -48,16 +47,16 @@ lazy val macrosite = project.in(file("macrosite")) settings (defaultSettings: _*
 
 lazy val site = crossProject settings (defaultSettings: _*) settings (scalatex.SbtPlugin.projectSettings
   ) settings(
-  libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.5",
-  libraryDependencies += "org.scalaz" %%% "scalaz-core" % "7.2.10"
+  libraryDependencies += "org.scalaz" %%% "scalaz-core" % "7.2.10",
+  libraryDependencies += "com.lihaoyi" %%% "scalatags" % scalatagsVersion
 ) jvmSettings(
   libraryDependencies += "com.lihaoyi" %% "scalatex-site" % "0.3.7",
-  libraryDependencies += "org.openmole" %% "org-openmole-tool-file" % "7.0-SNAPSHOT",
-  libraryDependencies += "org.scala-js" %% "scalajs-stubs" % scalaJSVersion % "provided"
+  libraryDependencies += "org.openmole" %% "org-openmole-tool-file" % "7.0-SNAPSHOT"
 ) jsSettings(
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalarx" % rxVersion,
-  libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.2"
+  libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.2",
+  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % scalaJSdomVersion
 )
 
 

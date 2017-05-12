@@ -25,15 +25,13 @@ import rx._
 
 object Menu {
 
-  val currentCatergory: Var[JSPage] = Var(JSPages.index)
-
-  currentCatergory.triggerLater {
-    org.scalajs.dom.window.location.href = currentCatergory.now.file
+  def to(page: JSPage) {
+    org.scalajs.dom.window.location.href = page.file
   }
 
   def build = {
     val docItem = stringNavItem("DOCUMENTATION", () ⇒
-      currentCatergory() = JSPages.documentation
+      to(JSPages.documentation_language_models_scala)
     )
 
     val downloadItem = stringNavItem("DOWNLOAD", () ⇒
@@ -42,7 +40,7 @@ object Menu {
     )
 
     val faqItem = stringNavItem("FAQ", () ⇒
-      currentCatergory() = JSPages.faq
+      to(JSPages.faq)
     )
 
     val demoItem = navItem(
@@ -70,8 +68,7 @@ object Menu {
       demoItem.right,
       issueItem.right
     ).withBrand("img/openmole.png", width := 240, ()=> {
-      println("swith tot " + JSPages.index)
-      currentCatergory() = JSPages.index
+      to(JSPages.index)
       org.scalajs.dom.window.location.href = JSPages.index.file
     }).render
   }
