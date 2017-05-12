@@ -60,7 +60,7 @@ object Menu {
 
     //Create the nav bar
     bs.navBar(
-      navbar_staticTop +++ navbar_fixedTop +++ navbar_inverse +++ sheet.paddingRight(20),
+      navbar_staticTop +++ navbar_fixedTop +++ navbar_inverse +++ (scalatags.JsDom.all.paddingRight := 20),
       docItem.right,
       faqItem.right,
       downloadItem.right,
