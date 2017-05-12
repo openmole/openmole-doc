@@ -51,7 +51,7 @@ package object sitesheet {
     float := "left",
     fixedPosition,
     top := 500,
-    scalatags.JsDom.all.marginLeft := -150
+    scalatags.JsDom.all.marginLeft := -200
   )
 }
 

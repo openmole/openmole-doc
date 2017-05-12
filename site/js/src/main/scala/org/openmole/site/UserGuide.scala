@@ -42,7 +42,7 @@ object UserGuide {
           for {
             d <- t.details
           } yield {
-            tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger))
+            tags.div(scalatags.JsDom.all.paddingTop := 10)(bs.button(d.name, btn_danger))
           }),
         if (isCurrent) replacer.tag else tags.div
       )
