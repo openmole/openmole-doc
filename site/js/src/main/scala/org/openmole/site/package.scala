@@ -33,12 +33,12 @@ package object sitesheet {
   lazy val mainDiv: ModifierSeq = Seq(
     width := "50%",
     margin := "0 auto",
-    scalatags.JsDom.all.paddingTop := "150px"
+    scalatags.JsDom.all.paddingTop := 150
   )
 
   lazy val stepHeader: ModifierSeq = Seq(
-    width := "30%",
-    fontSize := 28,
+    width := "22%",
+    fontSize := "22px",
     fontWeight := "bold"
   )
 
@@ -53,6 +53,21 @@ package object sitesheet {
     top := 500,
     scalatags.JsDom.all.marginLeft := -200
   )
+
+  lazy val navigateDoc: ModifierSeq = Seq(
+    float := "left",
+    fixedPosition,
+    top := 200,
+    fontSize := "32px"
+  )
+
+  lazy val previousDoc: ModifierSeq = Seq(
+    scalatags.JsDom.all.marginLeft := -200
+  ) ++ navigateDoc
+
+  lazy val nextDoc: ModifierSeq = Seq(
+    scalatags.JsDom.all.paddingLeft := "calc(50% + 200px)"
+  ) ++ navigateDoc
 }
 
 package object utils {

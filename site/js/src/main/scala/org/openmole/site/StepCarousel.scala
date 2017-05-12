@@ -37,20 +37,18 @@ class StepCarousel(current: Int, steps: Step*) {
   val stepsSize = steps.size
 
   def toRight = Menu.to(steps((current + 1) % stepsSize).page)
+
   def toLeft = Menu.to(steps((current + stepsSize - 1) % stepsSize).page)
 
   val render = tags.div(
     Rx {
       val intro: HTMLDivElement = div("intro ...").render //step.intro
-      tags.div(
       tags.div(width := "100%")(
-        tags.div(marginAuto)(
-          bs.glyphSpan(glyph_chevron_left +++ sitesheet.stepHeader +++ floatLeft, () => toLeft),
-          span(currentStep.name, sitesheet.stepHeader +++ sitesheet.marginAuto),
-          bs.glyphSpan(glyph_chevron_right +++ sitesheet.stepHeader +++ floatRight, () => toRight)
-        )),
-      div(sheet.paddingTop(25), "intro"),
-      div(sheet.paddingTop(600))(currentStep.element)
+        bs.glyphSpan(glyph_chevron_left +++ previousDoc, () => toLeft),
+        bs.glyphSpan(glyph_chevron_right +++ nextDoc, () => toRight),
+        tags.div(sitesheet.marginAuto +++ stepHeader)(currentStep.name),
+        div(scalatags.JsDom.all.paddingTop := 50, "intro"),
+        div(scalatags.JsDom.all.paddingTop := 50)(currentStep.element)
       )
     }
   )

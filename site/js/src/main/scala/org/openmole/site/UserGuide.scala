@@ -44,7 +44,9 @@ object UserGuide {
           } yield {
             tags.div(scalatags.JsDom.all.paddingTop := 10)(bs.button(d.name, btn_danger))
           }),
-        if (isCurrent) replacer.tag else tags.div
+        tags.div(scalatags.JsDom.all.paddingTop := 20)(
+          if (isCurrent) replacer.tag else tags.div
+        )
       )
 
       tabs.add(t.name, withDetails, isCurrent, onclickExtra = () => Menu.to(t))
@@ -71,9 +73,9 @@ object UserGuide {
 
     val carrousel = tags.div(sitesheet.mainDiv)(
       new StepCarousel(currentStep,
-        Step("1.MODEL", taskTabs.render, JSPages.documentation_language_models_scala),
-        Step("2.METHOD", methodTabs.render, JSPages.documentation_language_methods_profiles),
-        Step("3.ENVIRONMENT ", envTabs.render, JSPages.documentation_language_environments_ssh)
+        Step("1. MODEL", taskTabs.render, JSPages.documentation_language_models_scala),
+        Step("2. METHOD", methodTabs.render, JSPages.documentation_language_methods_profiles),
+        Step("3. ENVIRONMENT ", envTabs.render, JSPages.documentation_language_environments_ssh)
       ).render
     )
 
