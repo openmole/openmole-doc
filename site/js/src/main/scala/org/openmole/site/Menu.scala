@@ -31,7 +31,7 @@ object Menu {
 
   def build = {
     val docItem = stringNavItem("DOCUMENTATION", () ⇒
-      to(JSPages.documentation_language_models_scala)
+      to(JSPages.documentation_language_models_java)
     )
 
     val downloadItem = stringNavItem("DOWNLOAD", () ⇒

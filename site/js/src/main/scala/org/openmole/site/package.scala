@@ -72,21 +72,13 @@ package object utils {
     textFrag.map(t => texToDiv(t)).getOrElse(div().render)
   }
 
-  def findID(id: String): Option[org.scalajs.dom.raw.HTMLDivElement] =
-    org.scalajs.dom.window.document.getElementById(id) match {
-      case e: org.scalajs.dom.raw.HTMLDivElement =>
-        println("EEE " + e.textContent)
-        Some(e)
-      case _ => None
-    }
-
   def replacer = Replacer
 
   case object Replacer {
-    private val parentID = uuID
-    private val childID = uuID
+    private val parentID = uuID.short
+    private val childID = uuID.short
 
-    def tag =
+    val tag =
       tags.div(id := parentID)(
         tags.div(id := childID)
       )
@@ -98,5 +90,10 @@ package object utils {
       parentNode.replaceChild(newTag, childNode)
     }
   }
+
+  def father(page: JSPage) =
+    JSPages.all.collect { case doc: JSDocumentationPage => doc }.filter {
+      _.children.contains(page)
+    }.headOption
 
 }

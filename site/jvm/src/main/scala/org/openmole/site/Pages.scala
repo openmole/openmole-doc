@@ -31,25 +31,25 @@ import scalaz.Reader
 
 object Pages {
 
-//  def decorate(p: Page): Frag =
-//    p match {
-//      case p: DocumentationPage ⇒ DocumentationPages.decorate(p)
-//      case _ ⇒ p.content.map(decorate)
-//    }
-//
-//  def decorate(p: Frag): Frag =
-//    div(`class` := "container")(
-//      div(`class` := "header pull-center")(
-//        div(`class` := "title")(a(img(id := "logo", src := Resource.logo.file), href := index.file)),
-//        ul(id := "sections", `class` := "nav nav-pills")(
-//          li(a("Getting Started", `class` := "amenu", id := "section", href := gettingStarted.file)),
-//          li(a("Documentation", `class` := "amenu", id := "section", href := DocumentationPages.root.file)),
-//          li(a("Who are we?", `class` := "amenu", id := "section", href := whoAreWe.file))
-//        )
-//      ),
-//      div(id := "openmoleSearch"),
-//      div(`class` := "row")(p)
-//    )
+  //  def decorate(p: Page): Frag =
+  //    p match {
+  //      case p: DocumentationPage ⇒ DocumentationPages.decorate(p)
+  //      case _ ⇒ p.content.map(decorate)
+  //    }
+  //
+  //  def decorate(p: Frag): Frag =
+  //    div(`class` := "container")(
+  //      div(`class` := "header pull-center")(
+  //        div(`class` := "title")(a(img(id := "logo", src := Resource.logo.file), href := index.file)),
+  //        ul(id := "sections", `class` := "nav nav-pills")(
+  //          li(a("Getting Started", `class` := "amenu", id := "section", href := gettingStarted.file)),
+  //          li(a("Documentation", `class` := "amenu", id := "section", href := DocumentationPages.root.file)),
+  //          li(a("Who are we?", `class` := "amenu", id := "section", href := whoAreWe.file))
+  //        )
+  //      ),
+  //      div(id := "openmoleSearch"),
+  //      div(`class` := "row")(p)
+  //    )
 
   def index = Page("index", scalatex.Index(), title = Some("OpenMOLE: scientific workflow, distributed computing, parameter tuning"))
 
@@ -64,10 +64,10 @@ object Pages {
   def all: Seq[Page] = DocumentationPages.allPages ++ Seq(index, gettingStarted, whoAreWe, communications)
 
   def file(page: Page) = page.location.mkString("_") + ".html"
-  
+
   def isDoc(page: Page) = page match {
-    case d: DocumentationPage=> true
-    case _=> false
+    case d: DocumentationPage => true
+    case _ => false
   }
 
 }
@@ -296,7 +296,7 @@ object DocumentationPages {
 
           override def title = Some(name)
 
-          def children = Seq(scala, native, netLogo, mole)
+          def children = Seq(scala, java, /*rscript,*/ python, /*ccplusplus,*/ native, netLogo, mole)
 
           def content = scalatex.documentation.language.Model()
 
@@ -314,6 +314,18 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.model.Scala()
+          }
+
+          def java = new DocumentationPage {
+            def name = "Java"
+
+            override def title = Some(name)
+
+            def children = Seq()
+
+            def details = Seq()
+
+            def content = scalatex.documentation.language.model.Java()
           }
 
           def native = new DocumentationPage {
@@ -341,7 +353,7 @@ object DocumentationPages {
           }
 
           def rscript = new DocumentationPage {
-            def name = "R Script "
+            def name = "R Script"
 
             override def title = Some(name)
 
@@ -353,7 +365,7 @@ object DocumentationPages {
           }
 
           def python = new DocumentationPage {
-            def name = "Python  "
+            def name = "Python"
 
             override def title = Some(name)
 
@@ -555,13 +567,38 @@ object DocumentationPages {
 
           override def title = Some(name)
 
-          def children = Seq()
+          def children = Seq(pse, profile)
 
           def details = Seq()
 
+          override def intro = Some(scalatex.documentation.language.method.MethodIntro())
+
           def content = scalatex.documentation.language.Method()
 
-          override def intro = Some(scalatex.documentation.language.method.MethodIntro())
+
+          def pse = new DocumentationPage {
+            def name = "PSE"
+
+            override def title = Some(name)
+
+            def children = Seq()
+
+            def details = Seq()
+
+            def content = scalatex.documentation.language.method.PSE()
+          }
+
+          def profile = new DocumentationPage {
+            def name = "Profiles"
+
+            override def title = Some(name)
+
+            def children = Seq()
+
+            def details = Seq()
+
+            def content = scalatex.documentation.language.method.Profile()
+          }
         }
       }
 

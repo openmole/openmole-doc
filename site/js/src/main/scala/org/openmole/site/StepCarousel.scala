@@ -28,31 +28,29 @@ import sheet._
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-case class Step(name: String, element: HTMLElement, details: Seq[JSDocumentationPage] = Seq())
+case class Step(name: String, element: HTMLElement, page: JSDocumentationPage)
 
-class StepCarousel(steps: Step*) {
+class StepCarousel(current: Int, steps: Step*) {
   implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
 
-  val current = Var(0)
+  val currentStep = steps(current)
   val stepsSize = steps.size
 
-  def toRight = current() = (current.now + 1) % stepsSize
-
-  def toLeft = current() = (current.now + stepsSize - 1) % stepsSize
+  def toRight = Menu.to(steps((current + 1) % stepsSize).page)
+  def toLeft = Menu.to(steps((current + stepsSize - 1) % stepsSize).page)
 
   val render = tags.div(
     Rx {
-      val step = steps(current())
       val intro: HTMLDivElement = div("intro ...").render //step.intro
       tags.div(
       tags.div(width := "100%")(
         tags.div(marginAuto)(
           bs.glyphSpan(glyph_chevron_left +++ sitesheet.stepHeader +++ floatLeft, () => toLeft),
-          span(step.name, sitesheet.stepHeader +++ sitesheet.marginAuto),
+          span(currentStep.name, sitesheet.stepHeader +++ sitesheet.marginAuto),
           bs.glyphSpan(glyph_chevron_right +++ sitesheet.stepHeader +++ floatRight, () => toRight)
         )),
       div(sheet.paddingTop(25), "intro"),
-      div(sheet.paddingTop(600))(step.element)
+      div(sheet.paddingTop(600))(currentStep.element)
       )
     }
   )

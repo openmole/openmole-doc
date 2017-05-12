@@ -17,14 +17,11 @@ package org.openmole.site
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
+import org.openmole.site
 
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
-import scaladget.tools.JsRxTags._
 import scalatags.JsDom.tags
-import org.scalajs.dom.raw.HTMLDivElement
-
 import scalatags.JsDom.all._
 import sheet._
 import bs._
@@ -33,10 +30,12 @@ object UserGuide {
 
   val replacer = utils.replacer
 
-  private def buildTabs(docPages: Seq[JSDocumentationPage]) = {
+  private def buildTabs(docPages: Seq[JSDocumentationPage], current: JSPage) = {
     val tabs = Tabs(sheet.pills)
 
     docPages.foldLeft(tabs)((tabs, t) => {
+
+      val isCurrent = t == current
 
       val withDetails = tags.div(
         tags.div(sitesheet.detailButtons)(
@@ -45,25 +44,36 @@ object UserGuide {
           } yield {
             tags.div(sheet.paddingTop(10), bs.button(d.name, btn_danger))
           }),
-        replacer.tag
+        if (isCurrent) replacer.tag else tags.div
       )
 
-      tabs.add(t.name, withDetails)
+      tabs.add(t.name, withDetails, isCurrent, onclickExtra = () => Menu.to(t))
     })
   }
 
-  def addCarousel = {
+  def addCarousel(current: JSPage) = {
 
-    val methodTabs = buildTabs(JSPages.documentation_language_methods.children)
-    val envTabs = buildTabs(JSPages.documentation_language_environments.children)
-    val taskTabs = buildTabs(JSPages.documentation_language_models.children)
+    val methodTabs = buildTabs(JSPages.documentation_language_methods.children, current)
+    val envTabs = buildTabs(JSPages.documentation_language_environments.children, current)
+    val taskTabs = buildTabs(JSPages.documentation_language_models.children, current)
 
+
+    val parent = site.utils.father(current)
+    val currentStep = {
+      parent match {
+        case Some(dp: JSDocumentationPage) =>
+          if (dp == JSPages.documentation_language_models) 0
+          else if (dp == JSPages.documentation_language_methods) 1
+          else 2
+        case _ => 0
+      }
+    }
 
     val carrousel = tags.div(sitesheet.mainDiv)(
-      new StepCarousel(
-        Step("1.MODEL", taskTabs.render, Seq()),
-        Step("2.METHOD", methodTabs.render, Seq()),
-        Step("3.ENVIRONMENT ", envTabs.render, Seq())
+      new StepCarousel(currentStep,
+        Step("1.MODEL", taskTabs.render, JSPages.documentation_language_models_scala),
+        Step("2.METHOD", methodTabs.render, JSPages.documentation_language_methods_profiles),
+        Step("3.ENVIRONMENT ", envTabs.render, JSPages.documentation_language_environments_ssh)
       ).render
     )
 

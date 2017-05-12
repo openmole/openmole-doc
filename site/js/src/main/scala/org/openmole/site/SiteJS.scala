@@ -45,7 +45,7 @@ object SiteJS extends JSApp {
         mainDiv.render
       }
       page match {
-        case _: JSDocumentationPage => UserGuide.addCarousel
+        case _: JSDocumentationPage => UserGuide.addCarousel(page)
         case _ => div("Regular")
       }
 
