@@ -46,7 +46,7 @@ object SiteJS extends JSApp {
       }
       page match {
         case _: JSDocumentationPage => UserGuide.addCarousel(page)
-        case _ => div("Regular")
+        case _ => MainPage.load(page)
       }
 
       Highlighting.init

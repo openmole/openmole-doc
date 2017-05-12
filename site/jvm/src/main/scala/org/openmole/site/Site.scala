@@ -125,8 +125,6 @@ object Site extends App {
           script(src := Resource.siteJS.file),
           script(src := Resource.lunr.file),
           script(src := Resource.index.file),
-          //  script("hljs.initHighlightingOnLoad();"),
-
           meta(charset := "UTF-8"),
           piwik
         )
