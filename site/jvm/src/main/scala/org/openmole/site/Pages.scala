@@ -31,26 +31,6 @@ import scalaz.Reader
 
 object Pages {
 
-  //  def decorate(p: Page): Frag =
-  //    p match {
-  //      case p: DocumentationPage ⇒ DocumentationPages.decorate(p)
-  //      case _ ⇒ p.content.map(decorate)
-  //    }
-  //
-  //  def decorate(p: Frag): Frag =
-  //    div(`class` := "container")(
-  //      div(`class` := "header pull-center")(
-  //        div(`class` := "title")(a(img(id := "logo", src := Resource.logo.file), href := index.file)),
-  //        ul(id := "sections", `class` := "nav nav-pills")(
-  //          li(a("Getting Started", `class` := "amenu", id := "section", href := gettingStarted.file)),
-  //          li(a("Documentation", `class` := "amenu", id := "section", href := DocumentationPages.root.file)),
-  //          li(a("Who are we?", `class` := "amenu", id := "section", href := whoAreWe.file))
-  //        )
-  //      ),
-  //      div(id := "openmoleSearch"),
-  //      div(`class` := "row")(p)
-  //    )
-
   def index = Page("index", scalatex.Index(), title = Some("OpenMOLE: scientific workflow, distributed computing, parameter tuning"))
 
   def gettingStarted = Page("getting_started", scalatex.GettingStarted(), title = Some("Getting started with OpenMOLE - introductory tutorial"))
@@ -168,78 +148,6 @@ object DocumentationPages {
 
       override def intro = _intro
     }
-  }
-
-  def tag(p: DocumentationPage): String = p.name + p.parent.map(pa ⇒ "-" + tag(pa)).getOrElse("")
-
-
-  def documentationMenu(root: DocumentationPage, currentPage: DocumentationPage): Frag = {
-    def menuEntry(p: DocumentationPage) = {
-      def current = p.location == currentPage.location
-
-      def idLabel = "documentation-menu-entry" + (if (current) "-current" else "")
-
-      a(p.name, href := p.file)
-    }
-
-    def parents(p: DocumentationPage): List[DocumentationPage] =
-      p.parent match {
-        case None ⇒ Nil
-        case Some(parent) ⇒ parent :: parents(parent)
-      }
-
-    val currentPageParents = parents(currentPage).toSet
-
-    def pageLine(p: DocumentationPage): Frag = {
-
-      def contracted = li(menuEntry(p))
-
-      def expanded =
-        li(
-          menuEntry(p),
-          div(id := tag(p) + "-menu", ul(id := "documentation-menu-ul")(p.children.map(pageLine)))
-        )
-
-      if (p.children.isEmpty) contracted
-      else if (p.location == currentPage.location) expanded
-      else if (currentPageParents.exists(_.location == p.location)) expanded
-      else contracted
-    }
-
-    div(id := "documentation-menu")(
-      root.children.map(pageLine)
-    )
-  }
-
-  def bottomLinks(p: DocumentationPage) = {
-    def previous(p: DocumentationPage): Option[DocumentationPage] =
-      p.parent match {
-        case None ⇒ None
-        case Some(parent) ⇒
-          parent.children.indexOf(p) match {
-            case x if (x - 1) < 0 ⇒ None
-            case x ⇒ Some(parent.children(x - 1))
-          }
-      }
-
-    def next(p: DocumentationPage): Option[DocumentationPage] =
-      p.parent match {
-        case None ⇒ None
-        case Some(parent) ⇒
-          parent.children.indexOf(p) match {
-            case x if (x + 1 >= parent.children.size) || (x == -1) ⇒ None
-            case x ⇒ Some(parent.children(x + 1))
-          }
-      }
-
-    def up(p: DocumentationPage): Option[DocumentationPage] = p.parent
-
-    table(id := "documentation-bottom-links")(
-      Seq("previous" → previous(p), "up" → up(p), "next" → next(p)).map {
-        case (t, None) ⇒ td(id := "documentation-bottom-link-unavailable")(t)
-        case (item, Some(p)) ⇒ td(id := "documentation-bottom-link")(a(item, href := p.file))
-      }
-    )
   }
 
   def allPages = root.allPages
