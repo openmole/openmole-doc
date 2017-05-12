@@ -59,9 +59,9 @@ object Pages {
 
   def communications = Page("communications", scalatex.Communications(), title = Some("Related papers, conference slides, videos, OpenMOLE in the news"))
 
-  // def faq = Page("faq", scalatex.FAQ(), title = Some("FAQ"))
+   def faq = Page("faq", scalatex.FAQ(), title = Some("FAQ"))
 
-  def all: Seq[Page] = DocumentationPages.allPages ++ Seq(index, gettingStarted, whoAreWe, communications)
+  def all: Seq[Page] = DocumentationPages.allPages ++ Seq(index, gettingStarted, whoAreWe, faq, communications)
 
   def file(page: Page) = page.location.mkString("_") + ".html"
 
@@ -253,7 +253,7 @@ object DocumentationPages {
 
     def details = Seq()
 
-    def children = Seq(application, language, tutorial /*, market*/ , faq, development)
+    def children = Seq(application, language, tutorial /*, market*/, development)
 
     def application = new DocumentationPage {
       def name = "Application"
@@ -735,18 +735,6 @@ object DocumentationPages {
     //        )
     //      }
 
-  }
-
-  def faq = new DocumentationPage {
-    def name = "FAQ"
-
-    override def title = Some(name)
-
-    def children = Seq()
-
-    def details = Seq()
-
-    def content = scalatex.FAQ()
   }
 
   def development = new DocumentationPage {

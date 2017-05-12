@@ -249,7 +249,7 @@
       @a("grid environment", href := DocumentationPages.root.language.environment.egi.file) for instance.
 
     @p More details on the difference between manipulating @i{Files} and @i{Paths} can be found in the
-    @a("dedicated entry of the FAQ", href := DocumentationPages.faq.file).
+    @a("dedicated entry of the FAQ", href := Pages.faq.file).
 
     @p If you wish to select one single file for each value of @i{i} you may use @hl.openmoleNoTest("select"):
     @br @hl.openmole("""

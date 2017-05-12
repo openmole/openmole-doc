@@ -23,7 +23,7 @@
         @li{@hl.highlight("-r ~", "plain") is not compulsory but it has proved mandatory in some cases. So as rule of thumb, if you encounter problems when packaging your application, try adding / removing it.}
         @li{@hl.highlight("-p /path", "plain") asks CARE not to archive /path. This is particularly useful for input data that will change with your parameters. @b{You probably do not want} to embed this data in the archive, and we'll see further down how to inject the necessary input data in the archive from OpenMOLE.}
 
-  @p @b{Second}, just provide the resulting package along with some other information to OpenMOLE. Et voila! If you encounter any problem to package your application, please refer to the corresponding entry in the @a("FAQ", href := DocumentationPages.faq.file + "#Ican'tgetCARE/PRoottowork")
+  @p @b{Second}, just provide the resulting package along with some other information to OpenMOLE. Et voila! If you encounter any problem to package your application, please refer to the corresponding entry in the @a("FAQ", href := Pages.faq.file + "#Ican'tgetCARE/PRoottowork")
 
   @p One very important aspect of CARE is that you only need to package your application @b{once}. As long as the execution you use to package your application makes uses of all the dependencies, you should not have any problem re-executing this archive with other parameters.
 
