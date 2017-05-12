@@ -118,9 +118,6 @@ object Site extends App {
           //  link(rel := "stylesheet", href := Resource.css.file),
           link(rel := "stylesheet", href := Resource.github.file),
           link(rel := "stylesheet", href := Resource.docStyle.file),
-          link(rel := "stylesheet", href := "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"),
-
-          script(src := scriptName),
           script(src := Resource.bootstrapJS.file),
           script(src := Resource.highlightJS.file),
           script(src := Resource.siteJS.file),
@@ -142,7 +139,7 @@ object Site extends App {
       def bodyFrag(page: org.openmole.site.Page) = body(
         div(id := {
           if (Pages.isDoc(page)) shared.sitexDoc else shared.sitexMain
-        }, page.content),
+        }, `class` := "fade-in", page.content),
         onload := "org.openmole.site.SiteJS().main();"
       )
 

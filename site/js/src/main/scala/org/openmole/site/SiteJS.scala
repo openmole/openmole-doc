@@ -35,14 +35,11 @@ object SiteJS extends JSApp {
   @JSExport()
   def main(): Unit = {
 
+    val menu = Menu.build.render
     JSPages.toJSPage(org.scalajs.dom.window.location.pathname.split('/').last) foreach { page =>
 
       withBootstrapNative {
-
-        val mainDiv = tags.div(
-          Menu.build
-        )
-        mainDiv.render
+        menu
       }
       page match {
         case _: JSDocumentationPage => UserGuide.addCarousel(page)
