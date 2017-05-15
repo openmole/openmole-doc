@@ -33,6 +33,7 @@ case class Step(name: String, element: HTMLElement, page: JSDocumentationPage)
 class StepCarousel(current: Int, steps: Step*) {
   implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
 
+  val introReplacer = utils.replacer
   val currentStep = steps(current)
   val stepsSize = steps.size
 
@@ -40,16 +41,13 @@ class StepCarousel(current: Int, steps: Step*) {
 
   def toLeft = Menu.to(steps((current + stepsSize - 1) % stepsSize).page)
 
-  val render = tags.div(
-    Rx {
-      val intro: HTMLDivElement = div("intro ...").render //step.intro
-      tags.div(width := "100%")(
-        bs.glyphSpan(glyph_chevron_left +++ previousDoc, () => toLeft),
-        bs.glyphSpan(glyph_chevron_right +++ nextDoc, () => toRight),
-        tags.div(sitesheet.marginAuto +++ stepHeader)(currentStep.name),
-        div(scalatags.JsDom.all.paddingTop := 50, "intro"),
-        div(scalatags.JsDom.all.paddingTop := 50)(currentStep.element)
-      )
-    }
-  )
+  val render = {
+    tags.div(width := "100%")(
+      bs.glyphSpan(glyph_chevron_left +++ previousDoc, () => toLeft),
+      bs.glyphSpan(glyph_chevron_right +++ nextDoc, () => toRight),
+      tags.div(sitesheet.marginAuto +++ stepHeader)(currentStep.name),
+      div(scalatags.JsDom.all.paddingTop := 50, introReplacer.tag),
+      div(scalatags.JsDom.all.paddingTop := 50)(currentStep.element)
+    )
+  }
 }

@@ -28,7 +28,7 @@ import bs._
 
 object UserGuide {
 
-  val replacer = utils.replacer
+  val contentReplacer = utils.replacer
 
   private def buildTabs(docPages: Seq[JSDocumentationPage], current: JSPage) = {
     val tabs = Tabs(sheet.pills)
@@ -45,7 +45,7 @@ object UserGuide {
             tags.div(scalatags.JsDom.all.paddingTop := 10)(bs.linkButton(d.name, d.file, btn_danger))
           }),
         tags.div(scalatags.JsDom.all.paddingTop := 20)(
-          if (isCurrent) replacer.tag else tags.div
+          if (isCurrent) contentReplacer.tag else tags.div
         )
       )
 
@@ -71,16 +71,16 @@ object UserGuide {
       }
     }
 
-    val carrousel = tags.div(sitesheet.mainDiv)(
+    val carrousel =
       new StepCarousel(currentStep,
         Step("1. MODEL", taskTabs.render, JSPages.documentation_language_models_scala),
         Step("2. METHOD", methodTabs.render, JSPages.documentation_language_methods_profiles),
         Step("3. ENVIRONMENT ", envTabs.render, JSPages.documentation_language_environments_ssh)
-      ).render
-    )
+      )
 
-    org.scalajs.dom.window.document.body.appendChild(carrousel)
-    replacer.replaceWith(shared.sitexDoc)
+    org.scalajs.dom.window.document.body.appendChild(tags.div(sitesheet.mainDiv)(carrousel.render))
+    contentReplacer.replaceWith(shared.sitexDoc)
+    carrousel.introReplacer.replaceWith(shared.sitexIntro)
   }
 
 

@@ -50,7 +50,9 @@ object Pages {
     case _ => false
   }
 
-  def isTopDoc(page: Page) =  DocumentationPages.topPages.map{_.children}
+  def isTopDoc(page: Page) = DocumentationPages.topPages.map {
+    _.children
+  }
 
 }
 
@@ -84,6 +86,8 @@ trait Page {
   def file = Pages.file(this)
 
   def details: Seq[Page]
+
+  def intro: Option[scalatags.Text.all.Frag] = None
 }
 
 case class Parent[T](parent: Option[T])
@@ -98,8 +102,6 @@ abstract class DocumentationPage(implicit p: Parent[DocumentationPage] = Parent(
   def name: String
 
   def children: Seq[DocumentationPage]
-
-  def intro: Option[scalatags.Text.all.Frag] = None
 
   def title: Option[String] = None
 
@@ -162,7 +164,9 @@ object DocumentationPages {
     root.language.environment
   )
 
-  lazy val topPagesChildren = topPages.flatMap{_.children}.distinct
+  lazy val topPagesChildren = topPages.flatMap {
+    _.children
+  }.distinct
 
   def root = new DocumentationPage {
     def name = "Documentation"
@@ -222,7 +226,7 @@ object DocumentationPages {
 
           def details = Seq()
 
-          override def intro = Some(scalatex.documentation.language.ModelIntro())
+          val modelIntro = Some(scalatex.documentation.language.ModelIntro())
 
           def scala = new DocumentationPage {
             def name = "Scala"
@@ -234,6 +238,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.model.Scala()
+
+            override def intro = modelIntro
           }
 
           def java = new DocumentationPage {
@@ -246,6 +252,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.model.Java()
+
+            override def intro = modelIntro
           }
 
           def native = new DocumentationPage {
@@ -258,6 +266,8 @@ object DocumentationPages {
             def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
 
             def content = scalatex.documentation.language.model.Native()
+
+            override def intro = modelIntro
           }
 
           def ccplusplus = new DocumentationPage {
@@ -270,6 +280,8 @@ object DocumentationPages {
             def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
 
             def content = scalatex.documentation.language.model.CCplusplus()
+
+            override def intro = modelIntro
           }
 
           def rscript = new DocumentationPage {
@@ -282,6 +294,8 @@ object DocumentationPages {
             def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
 
             def content = scalatex.documentation.language.model.RScript()
+
+            override def intro = modelIntro
           }
 
           def python = new DocumentationPage {
@@ -294,6 +308,8 @@ object DocumentationPages {
             def details = Seq(nativeAPI, nativePackaging, CARETroubleshooting)
 
             def content = scalatex.documentation.language.model.Python()
+
+            override def intro = modelIntro
           }
 
           def netLogo = new DocumentationPage {
@@ -306,6 +322,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.model.NetLogo()
+
+            override def intro = modelIntro
           }
 
           def mole = new DocumentationPage {
@@ -318,6 +336,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.model.MoleTask()
+
+            override def intro = modelIntro
           }
 
           //details

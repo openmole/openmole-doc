@@ -138,6 +138,7 @@ object Site extends App {
         * The body of this site's HTML page
         */
       def bodyFrag(page: org.openmole.site.Page) = body(
+        div(id := shared.sitexIntro, page.intro.getOrElse("")),
         div(id := {
           if (DocumentationPages.topPagesChildren.contains(page)) shared.sitexDoc else shared.sitexMain
         }, `class` := "fade-in", page.content),

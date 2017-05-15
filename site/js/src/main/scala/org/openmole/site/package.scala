@@ -87,9 +87,9 @@ package object utils {
     textFrag.map(t => texToDiv(t)).getOrElse(div().render)
   }
 
-  def replacer = Replacer
+  def replacer = new Replacer()
 
-  case object Replacer {
+  case class Replacer() {
     private val parentID = uuID.short
     private val childID = uuID.short
 
@@ -102,6 +102,8 @@ package object utils {
       val newTag = org.scalajs.dom.window.document.getElementById(id)
       val childNode = org.scalajs.dom.window.document.getElementById(childID)
       val parentNode = org.scalajs.dom.window.document.getElementById(parentID)
+      println(newTag.textContent)
+      println("-------------------------------------------")
       parentNode.replaceChild(newTag, childNode)
     }
   }
