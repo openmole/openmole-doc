@@ -39,7 +39,7 @@ object Pages {
 
   def communications = Page("communications", scalatex.Communications(), title = Some("Related papers, conference slides, videos, OpenMOLE in the news"))
 
-   def faq = Page("faq", scalatex.FAQ(), title = Some("FAQ"))
+  def faq = Page("faq", scalatex.FAQ(), title = Some("FAQ"))
 
   def all: Seq[Page] = DocumentationPages.allPages ++ Seq(index, gettingStarted, whoAreWe, faq, communications)
 
@@ -49,6 +49,8 @@ object Pages {
     case d: DocumentationPage => true
     case _ => false
   }
+
+  def isTopDoc(page: Page) =  DocumentationPages.topPages.map{_.children}
 
 }
 
@@ -73,9 +75,11 @@ trait Page {
 
   def name: String
 
+  def id: String = name
+
   def title: Option[String]
 
-  def location = Seq(name)
+  def location = Seq(id)
 
   def file = Pages.file(this)
 
@@ -101,8 +105,8 @@ abstract class DocumentationPage(implicit p: Parent[DocumentationPage] = Parent(
 
   override def location: Seq[String] =
     parent match {
-      case None ⇒ Seq(name)
-      case Some(p) ⇒ p.location ++ Seq(name)
+      case None ⇒ Seq(id)
+      case Some(p) ⇒ p.location ++ Seq(id)
     }
 
   def allPages: Seq[Page] = {
@@ -152,6 +156,14 @@ object DocumentationPages {
 
   def allPages = root.allPages
 
+  lazy val topPages = Seq(
+    root.language.model,
+    root.language.method,
+    root.language.environment
+  )
+
+  lazy val topPagesChildren = topPages.flatMap{_.children}.distinct
+
   def root = new DocumentationPage {
     def name = "Documentation"
 
@@ -161,7 +173,7 @@ object DocumentationPages {
 
     def details = Seq()
 
-    def children = Seq(application, language, tutorial /*, market*/, development)
+    def children = Seq(application, language, tutorial /*, market*/ , development)
 
     def application = new DocumentationPage {
       def name = "Application"
@@ -310,6 +322,8 @@ object DocumentationPages {
 
           //details
           def nativeAPI = new DocumentationPage {
+            override def id = "NativeAPI"
+
             def name = "API"
 
             override def title = Some(name)
@@ -322,6 +336,8 @@ object DocumentationPages {
           }
 
           def nativePackaging = new DocumentationPage {
+            override def id = "NativePackaging"
+
             def name = "Native Packaging"
 
             override def title = Some(name)
@@ -335,6 +351,8 @@ object DocumentationPages {
 
           //troubleshooting care
           def CARETroubleshooting = new DocumentationPage {
+            override def id = "CARETroubleshooting"
+
             def name = "CARE Troubleshooting"
 
             override def title = Some(name)
@@ -397,6 +415,8 @@ object DocumentationPages {
           override def intro = Some(scalatex.documentation.language.environment.EnvironmentIntro())
 
           def multithread = new DocumentationPage {
+            override def id = "MultiThread"
+
             def name = "Multi-threads"
 
             override def title = Some(name)
@@ -445,6 +465,8 @@ object DocumentationPages {
           }
 
           def desktopGrid = new DocumentationPage {
+            override def id = "DesktopGrid"
+
             def name = "Desktop Grid"
 
             override def title = Some(name)
@@ -525,6 +547,8 @@ object DocumentationPages {
       def content = scalatex.documentation.language.Tutorial()
 
       def helloWorld = new DocumentationPage {
+        override def id = "HelloWord"
+
         def name = "Hello World"
 
         override def title = Some(name)
@@ -537,6 +561,8 @@ object DocumentationPages {
       }
 
       def resume = new DocumentationPage {
+        override def id = "ResumeWorkflow"
+
         def name = "Resume workflow"
 
         override def title = Some(name)
@@ -549,6 +575,8 @@ object DocumentationPages {
       }
 
       def headlessNetLogo = new DocumentationPage {
+        override def id = "NetlogoHeadless"
+
         def name = "NetLogo Headless"
 
         override def title = Some(name)
@@ -561,6 +589,8 @@ object DocumentationPages {
       }
 
       def netLogoGA = new DocumentationPage {
+        override def id = "GAwithNetLogo"
+
         def name = "GA with NetLogo"
 
         override def title = Some(name)

@@ -41,10 +41,9 @@ object SiteJS extends JSApp {
       withBootstrapNative {
         menu
       }
-      page match {
-        case _: JSDocumentationPage => UserGuide.addCarousel(page)
-        case _ => MainPage.load(page)
-      }
+
+      if (JSPages.topPagesChildren.contains(page)) UserGuide.addCarousel(page)
+      else MainPage.load(page)
 
       Highlighting.init
     }

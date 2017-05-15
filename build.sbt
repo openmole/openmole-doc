@@ -51,13 +51,15 @@ lazy val site = crossProject settings (defaultSettings: _*) settings (scalatex.S
   libraryDependencies += "com.lihaoyi" %%% "scalatags" % scalatagsVersion
 ) jvmSettings(
   libraryDependencies += "com.lihaoyi" %% "scalatex-site" % "0.3.7",
-  libraryDependencies += "org.openmole" %% "org-openmole-tool-file" % "7.0-SNAPSHOT"
+  libraryDependencies += "org.openmole" %% "org-openmole-tool-file" % "7.0-SNAPSHOT"//,
+//  libraryDependencies += "comm.typesafe" %% "js-engine" % "1.2.2"
 ) jsSettings(
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,
   libraryDependencies += "com.lihaoyi" %%% "scalarx" % rxVersion,
   libraryDependencies += "com.github.karasiq" %%% "scalajs-marked" % "1.0.2",
-  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % scalaJSdomVersion
-)
+  libraryDependencies += "org.scala-js" %%% "scalajs-dom" % scalaJSdomVersion,
+  pipelineStages := Seq(gzip)
+) enablePlugins(SbtWeb)
 
 
 lazy val siteJS = site.js

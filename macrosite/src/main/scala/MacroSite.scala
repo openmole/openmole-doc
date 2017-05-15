@@ -38,6 +38,7 @@ object MacroSite extends App {
     implicit def pageSeqToMacroPageSeq(ps: Seq[Page]): Seq[MacroPage] = ps.map { p => MacroPage(p, valName(p), Pages.isDoc(p), Pages.file(p)) }
 
     val pageMap: Seq[MacroPage] = Pages.all
+    val topPagesChildren: Seq[MacroPage] = DocumentationPages.topPagesChildren
 
     def listOf(prefix: String, macroPages: Seq[MacroPage]) = {
 
@@ -64,7 +65,8 @@ object MacroSite extends App {
     }
     acc +
       s"""\nlazy val ${macropage.name} = $constr("${macropage.page.name}", "${macropage.file}"${children(macropage.page)}${listOf("details", macropage.page.details)})"""
-      } + s"""\n\nlazy val all = Seq(${pageMap.map{_.name}.mkString(", ")})""" + footer
+      }+ s"""\n\nlazy val all = Seq(${pageMap.map{_.name}.mkString(", ")})\n\nlazy val topPagesChildren = Seq(${topPagesChildren.map{_.name}.mkString(", ")})
+                 """.stripMargin + footer
 
     println(content)
     targetFile overwrite content

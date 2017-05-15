@@ -127,6 +127,7 @@ object Site extends App {
           piwik
         )
 
+   //   println("RRRRUUN " + JSCompiler.apply)
 //
 //      def ifDoc(page: org.openmole.site.Page, ID: String, IDelse: String, content: String) =
 //      div(id := {
@@ -138,7 +139,7 @@ object Site extends App {
         */
       def bodyFrag(page: org.openmole.site.Page) = body(
         div(id := {
-          if (Pages.isDoc(page)) shared.sitexDoc else shared.sitexMain
+          if (DocumentationPages.topPagesChildren.contains(page)) shared.sitexDoc else shared.sitexMain
         }, `class` := "fade-in", page.content),
         onload := "org.openmole.site.SiteJS().main();"
       )
