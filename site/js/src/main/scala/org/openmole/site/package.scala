@@ -68,6 +68,12 @@ package object sitesheet {
   lazy val nextDoc: ModifierSeq = Seq(
     scalatags.JsDom.all.paddingLeft := "calc(50% + 200px)"
   ) ++ navigateDoc
+
+  lazy val searchResult: ModifierSeq = Seq(
+    color := "black",
+    left := -20,
+    width := 200
+  )
 }
 
 package object utils {

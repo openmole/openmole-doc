@@ -40,6 +40,7 @@ import scalatags.Text.all._
 //import org.openmole.core.market.MarketIndex
 
 import scala.annotation.tailrec
+import spray.json._
 
 object Site extends App {
 
@@ -120,8 +121,8 @@ object Site extends App {
           link(rel := "stylesheet", href := Resource.docStyle.file),
           script(src := Resource.highlightJS.file),
           script(`type` :="text/javascript", src := Resource.siteJS.file),
-         // script(src := Resource.lunr.file),
-       //   script(src := Resource.index.file),
+          script(src := Resource.lunr.file),
+          script(src := Resource.index.file),
           meta(charset := "UTF-8")
         //  piwik
         )
@@ -142,7 +143,7 @@ object Site extends App {
         div(id := {
           if (DocumentationPages.topPagesChildren.contains(page)) shared.sitexDoc else shared.sitexMain
         }, page.content),
-        onload := "org.openmole.site.SiteJS().main();"
+        onload := "org.openmole.site.SiteJS().main();org.openmole.site.SiteJS().loadIndex(index);"
       )(`class` := "fade-in")
 
       override def generateHtml(outputRoot: Path) = {
@@ -155,10 +156,11 @@ object Site extends App {
           val bytes = scala.io.Codec.UTF8.encoder.encode(cb)
           val target = outputRoot / page.file
           write.over(target, bytes.array())
-          //     LunrIndex.Index(path, txt)
+          LunrIndex.Index(page.file, txt)
         }
 
-        //  write.over(outputRoot / "index.js", "var index = " + JsArray(res.toVector).compactPrint)
+        println("Outpp" + outputRoot.toString())
+        write.over(outputRoot / "index.js", "var index = " + JsArray(res.toVector).compactPrint)
       }
 
       import scalaz._

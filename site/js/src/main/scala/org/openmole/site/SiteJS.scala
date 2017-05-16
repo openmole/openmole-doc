@@ -1,16 +1,17 @@
 package org.openmole.site
 
-import org.scalajs.dom.raw.NodeList
-
 import scaladget.api.{BootstrapTags => bs}
-import scaladget.stylesheet.{all => sheet}
 import scaladget.tools.JsRxTags._
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation._
 import scalatags.JsDom.tags
-import scalatags.JsDom.all._
+import scalatags.JsDom.all.{input, _}
 import bs._
 import rx._
+
+import scaladget.mapping.lunr.{IIndexSearchResult, Importedjs, Index}
+import scala.scalajs.js.Dynamic.{literal => lit}
+import scala.scalajs.js
 
 /*
  * Copyright (C) 09/05/17 // mathieu.leclaire@openmole.org
@@ -47,5 +48,50 @@ object SiteJS extends JSApp {
 
       Highlighting.init
     }
+  }
+
+
+  val lunrIndex: Var[Option[Index]] = Var(None)
+
+  @JSExport
+  def loadIndex(indexArray: js.Array[js.Any]): Unit = {
+
+
+    val index = Importedjs.lunr((i: Index) ⇒ {
+      i.field("title", lit("boost" → 10).value)
+      i.field("body", lit("boost" → 1).value)
+      i.ref("url")
+      indexArray.foreach(p ⇒ {
+        i.add(p)
+      })
+    })
+
+    lunrIndex() = Some(index)
+    //    val resultList = tags.div(
+    //      Rx {
+    //        for {r ← results()} yield {
+    //          tags.div(
+    //            tags.span(
+    //              tags.a(r.ref, cursor := "pointer", href := r.ref, target := "_blank")
+    //            )
+    //          )
+    //        }
+    //      }
+    //    ).render
+
+    //      dom.document.getElementById("openmoleSearch").appendChild(
+    //        tags.div(
+    //          form(`type` := "submit", searchInput, textAlign := "center", onsubmit := { () ⇒
+    //            search()
+    //            false
+    //          }), resultList
+    //        ).render
+    //      )
+  }
+
+  def search(content: String): Seq[IIndexSearchResult] = {
+    lunrIndex.now.map { i ⇒
+      i.search(content).toSeq
+    }.getOrElse(Seq())
   }
 }

@@ -85,7 +85,7 @@ object Resource {
 
   def api = ArchiveResource("openmole-api.tar.gz", "api")
 
-  def lunr = FileResource("lunr.min.js")
+  def lunr = FileResource("js/lunr.min.js")
 
   def index = FileResource("index.js")
 

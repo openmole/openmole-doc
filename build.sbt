@@ -51,7 +51,10 @@ lazy val site = crossProject settings (defaultSettings: _*) settings (scalatex.S
   libraryDependencies += "com.lihaoyi" %%% "scalatags" % scalatagsVersion
 ) jvmSettings(
   libraryDependencies += "com.lihaoyi" %% "scalatex-site" % "0.3.7",
-  libraryDependencies += "org.openmole" %% "org-openmole-tool-file" % "7.0-SNAPSHOT"//,
+  libraryDependencies += "org.openmole" %% "org-openmole-tool-file" % "7.0-SNAPSHOT",
+  libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.0.6",
+  libraryDependencies += "io.spray" %% "spray-json" % "1.3.2"
+  //,
 //  libraryDependencies += "comm.typesafe" %% "js-engine" % "1.2.2"
 ) jsSettings(
   libraryDependencies += "fr.iscpif" %%% "scaladget" % scaladgetVersion,

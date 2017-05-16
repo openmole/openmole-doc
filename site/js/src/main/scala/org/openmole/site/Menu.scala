@@ -16,14 +16,22 @@ package org.openmole.site
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 import scaladget.stylesheet.{all => sheet}
 import scaladget.api.{BootstrapTags => bs}
+import scaladget.api.Popup._
+import scaladget.tools.JsRxTags._
 import scalatags.JsDom.all._
 import sheet._
 import bs._
 import rx._
 
+import scaladget.api.Selector.Dropdown
+import scaladget.mapping.lunr.IIndexSearchResult
+
 object Menu {
+
+  implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
 
   def to(page: JSPage) {
     org.scalajs.dom.window.location.href = page.file
@@ -36,7 +44,7 @@ object Menu {
 
     val downloadItem = stringNavItem("DOWNLOAD", () ⇒
       println("DOWN")
-     // currentCatergory() = category.Download
+      // currentCatergory() = category.Download
     )
 
     val faqItem = stringNavItem("FAQ", () ⇒
@@ -48,10 +56,39 @@ object Menu {
     )
 
 
-    val searchItem = navItem(
-      bs.input("")(placeholder := "Search", width := 150).render, () ⇒
-        println("Search")
-    )
+    val searchItem = {
+
+
+      val searchDiv = div()
+      lazy val searchInput = bs.input("")(placeholder := "Search", width := 150).render
+      val result: Var[Seq[IIndexSearchResult]] = Var(Seq())
+      val resultDiv = div( Rx {
+        println("RXX")
+        for {
+          r <- result().take(10)
+        } yield {
+          val page = JSPages.all.filter{p: JSPage=> p.file == r.ref}.head
+          div(a(pointer, onclick := {()=> to(page)})(page.name))
+        }
+      })
+
+      val dd = new Dropdown(resultDiv, searchDiv, emptyMod, sitesheet.searchResult, () => {})
+
+      navItem(
+        div(
+          form(
+            searchInput,
+            onsubmit := { () =>
+              result() = SiteJS.search(searchInput.value)
+              dd.toggle
+              false
+            }
+          ).render,
+          dd.render,
+          searchDiv
+        ).render
+      )
+    }
 
     val issueItem = navItem(
       bs.linkButton("ISSUES", "http://discourse.iscpif.fr", btn_primary).render,
@@ -67,7 +104,7 @@ object Menu {
       searchItem.right,
       demoItem.right,
       issueItem.right
-    ).withBrand("img/openmole.png", width := 240, ()=> {
+    ).withBrand("img/openmole.png", width := 240, () => {
       to(JSPages.index)
       org.scalajs.dom.window.location.href = JSPages.index.file
     }).render

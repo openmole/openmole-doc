@@ -65,7 +65,7 @@ object MacroSite extends App {
     }
     acc +
       s"""\nlazy val ${macropage.name} = $constr("${macropage.page.name}", "${macropage.file}"${children(macropage.page)}${listOf("details", macropage.page.details)})"""
-      }+ s"""\n\nlazy val all = Seq(${pageMap.map{_.name}.mkString(", ")})\n\nlazy val topPagesChildren = Seq(${topPagesChildren.map{_.name}.mkString(", ")})
+      }+ s"""\n\nlazy val all: Seq[JSPage] = Seq(${pageMap.map{_.name}.mkString(", ")})\n\nlazy val topPagesChildren = Seq(${topPagesChildren.map{_.name}.mkString(", ")})
                  """.stripMargin + footer
 
     println(content)
