@@ -102,8 +102,6 @@ package object utils {
       val newTag = org.scalajs.dom.window.document.getElementById(id)
       val childNode = org.scalajs.dom.window.document.getElementById(childID)
       val parentNode = org.scalajs.dom.window.document.getElementById(parentID)
-      println(newTag.textContent)
-      println("-------------------------------------------")
       parentNode.replaceChild(newTag, childNode)
     }
   }

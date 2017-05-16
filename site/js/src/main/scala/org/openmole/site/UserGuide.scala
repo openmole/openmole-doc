@@ -81,6 +81,7 @@ object UserGuide {
     org.scalajs.dom.window.document.body.appendChild(tags.div(sitesheet.mainDiv)(carrousel.render))
     contentReplacer.replaceWith(shared.sitexDoc)
     carrousel.introReplacer.replaceWith(shared.sitexIntro)
+    carrousel.introMoreReplacer.replaceWith(shared.sitexIntroMore)
   }
 
 

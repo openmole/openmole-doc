@@ -1,14 +1,13 @@
 package org.openmole.site
 
 import org.openmole.site.sitesheet._
-import org.scalajs.dom.raw.{HTMLDivElement, HTMLElement}
+import org.scalajs.dom.raw.HTMLElement
 
 import scalatags.JsDom.tags
 import scalatags.JsDom.all._
 import scaladget.api.{BootstrapTags => bs}
 import scaladget.stylesheet.{all => sheet}
-import scaladget.tools.JsRxTags._
-import rx._
+import bs._
 
 import sheet._
 
@@ -31,9 +30,10 @@ import sheet._
 case class Step(name: String, element: HTMLElement, page: JSDocumentationPage)
 
 class StepCarousel(current: Int, steps: Step*) {
-  implicit val ctx: Ctx.Owner = Ctx.Owner.safe()
 
   val introReplacer = utils.replacer
+  val introMoreReplacer = utils.replacer
+
   val currentStep = steps(current)
   val stepsSize = steps.size
 
@@ -47,6 +47,7 @@ class StepCarousel(current: Int, steps: Step*) {
       bs.glyphSpan(glyph_chevron_right +++ nextDoc, () => toRight),
       tags.div(sitesheet.marginAuto +++ stepHeader)(currentStep.name),
       div(scalatags.JsDom.all.paddingTop := 50, introReplacer.tag),
+      bs.button("More", btn_default).expandOnclick(introMoreReplacer.tag),
       div(scalatags.JsDom.all.paddingTop := 50)(currentStep.element)
     )
   }

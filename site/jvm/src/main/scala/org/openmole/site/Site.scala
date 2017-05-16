@@ -118,13 +118,12 @@ object Site extends App {
           //  link(rel := "stylesheet", href := Resource.css.file),
           link(rel := "stylesheet", href := Resource.github.file),
           link(rel := "stylesheet", href := Resource.docStyle.file),
-          script(src := Resource.bootstrapJS.file),
           script(src := Resource.highlightJS.file),
-          script(src := Resource.siteJS.file),
-          script(src := Resource.lunr.file),
-          script(src := Resource.index.file),
-          meta(charset := "UTF-8"),
-          piwik
+          script(`type` :="text/javascript", src := Resource.siteJS.file),
+         // script(src := Resource.lunr.file),
+       //   script(src := Resource.index.file),
+          meta(charset := "UTF-8")
+        //  piwik
         )
 
    //   println("RRRRUUN " + JSCompiler.apply)
@@ -138,12 +137,13 @@ object Site extends App {
         * The body of this site's HTML page
         */
       def bodyFrag(page: org.openmole.site.Page) = body(
-        div(id := shared.sitexIntro, page.intro.getOrElse("")),
+        div(id := shared.sitexIntro, page.intro.map{_.intro}.getOrElse("")),
+        div(id := shared.sitexIntroMore, page.intro.map{_.more.getOrElse(RawFrag(""))}.getOrElse("")),
         div(id := {
           if (DocumentationPages.topPagesChildren.contains(page)) shared.sitexDoc else shared.sitexMain
-        }, `class` := "fade-in", page.content),
+        }, page.content),
         onload := "org.openmole.site.SiteJS().main();"
-      )
+      )(`class` := "fade-in")
 
       override def generateHtml(outputRoot: Path) = {
         val res = Pages.all.map { page =>

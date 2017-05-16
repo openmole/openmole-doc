@@ -38,12 +38,12 @@ object SiteJS extends JSApp {
     val menu = Menu.build.render
     JSPages.toJSPage(org.scalajs.dom.window.location.pathname.split('/').last) foreach { page =>
 
+      if (JSPages.topPagesChildren.contains(page)) UserGuide.addCarousel(page)
+      else MainPage.load(page)
+
       withBootstrapNative {
         menu
       }
-
-      if (JSPages.topPagesChildren.contains(page)) UserGuide.addCarousel(page)
-      else MainPage.load(page)
 
       Highlighting.init
     }

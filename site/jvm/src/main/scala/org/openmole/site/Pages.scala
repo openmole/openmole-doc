@@ -72,6 +72,7 @@ object Page {
   }
 }
 
+case class PageIntro(intro: scalatags.Text.all.Frag, more: Option[scalatags.Text.all.Frag] = None)
 trait Page {
   def content: Frag
 
@@ -87,7 +88,7 @@ trait Page {
 
   def details: Seq[Page]
 
-  def intro: Option[scalatags.Text.all.Frag] = None
+  def intro: Option[PageIntro] = None
 }
 
 case class Parent[T](parent: Option[T])
@@ -138,7 +139,7 @@ object DocumentationPages {
              children: Seq[DocumentationPage] = Seq.empty,
              details: Seq[DocumentationPage] = Seq.empty,
              location: Option[Seq[String]] = None,
-             intro: Option[Frag] = None
+             intro: Option[PageIntro] = None
            )(implicit p: Parent[DocumentationPage] = Parent(None)) = {
     val (_name, _content, _details, _children, _location, _intro) = (name, content, details, children, location, intro)
     new DocumentationPage {
@@ -220,13 +221,13 @@ object DocumentationPages {
 
           override def title = Some(name)
 
-          def children = Seq(scala, java, /*rscript,*/ python, /*ccplusplus,*/ native, netLogo, mole)
+          def children = Seq(scala, java, rscript, python, /*ccplusplus,*/ native, netLogo, mole)
 
           def content = scalatex.documentation.language.Model()
 
           def details = Seq()
 
-          val modelIntro = Some(scalatex.documentation.language.ModelIntro())
+          lazy val modelIntro = Some(PageIntro(scalatex.documentation.language.ModelIntro(), Some(scalatex.documentation.language.Model())))
 
           def scala = new DocumentationPage {
             def name = "Scala"
@@ -432,7 +433,7 @@ object DocumentationPages {
 
           def details = Seq()
 
-          override def intro = Some(scalatex.documentation.language.environment.EnvironmentIntro())
+          lazy val  envIntro = Some(PageIntro(scalatex.documentation.language.environment.EnvironmentIntro(), Some(scalatex.documentation.language.Environment())))
 
           def multithread = new DocumentationPage {
             override def id = "MultiThread"
@@ -446,6 +447,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.environment.Multithread()
+
+            override def intro = envIntro
           }
 
           def ssh = new DocumentationPage {
@@ -458,6 +461,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.environment.SSH()
+
+            override def intro = envIntro
           }
 
           def egi = new DocumentationPage {
@@ -470,6 +475,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.environment.EGI()
+
+            override def intro = envIntro
           }
 
           def cluster = new DocumentationPage {
@@ -482,6 +489,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.environment.Cluster()
+
+            override def intro = envIntro
           }
 
           def desktopGrid = new DocumentationPage {
@@ -496,6 +505,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.environment.DesktopGrid()
+
+            override def intro = envIntro
           }
 
         }
@@ -521,7 +532,7 @@ object DocumentationPages {
 
           def details = Seq()
 
-          override def intro = Some(scalatex.documentation.language.method.MethodIntro())
+          lazy val methIntro = Some(PageIntro(scalatex.documentation.language.method.MethodIntro(), Some(scalatex.documentation.language.Method())))
 
           def content = scalatex.documentation.language.Method()
 
@@ -536,6 +547,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.method.PSE()
+
+            override def intro = methIntro
           }
 
           def profile = new DocumentationPage {
@@ -548,6 +561,8 @@ object DocumentationPages {
             def details = Seq()
 
             def content = scalatex.documentation.language.method.Profile()
+
+            override def intro = methIntro
           }
         }
       }
