@@ -35,3 +35,10 @@ p{
 		opacity: 1;
 	}
 }
+
+
+.question{
+    font-weight: bold;
+    padding-top: 20px;
+    font-size: 17px;
+}

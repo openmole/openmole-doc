@@ -23,6 +23,8 @@ package object tools {
   import scalatags.Text.all._
   import scalatex.site.{Highlighter, Section}
 
+  def question(content: String) = div(`class` := "question", content)
+
   object sect extends Section()
 
   object hl extends Highlighter {
